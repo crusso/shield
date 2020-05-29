@@ -6,9 +6,9 @@ To get started, you might want to explore the project directory structure and th
 
 To learn more before you start working with shield, see the following documentation available online:
 
-- [Quick Start](https://sdk.dfinity.org/developers-guide/quickstart.html)
-- [Developer's Guide](https://sdk.dfinity.org/developers-guide)
-- [Language Reference](https://sdk.dfinity.org/language-guide)
+- [Quick Start](https://sdk.dfinity.org/docs/developers-guide/quickstart.html)
+- [Developer's Guide](https://sdk.dfinity.org/docs/developers-guide)
+- [Language Reference](https://sdk.dfinity.org/docs/language-guide/motoko.html)
 
 If you want to start working on your project right away, you might want to try the following commands:
 
@@ -111,7 +111,7 @@ Note that dfx reports a canister_id - you'll need to use the actuall ID (not the
 
 # Opening candid UI
 
-E.g. (using the actual canister ID)
+E.g. (but using the actual canister ID returned on installation)
 
 ```bash
 crusso@crusso-Virtual-Machine:~/shield$ firefox http://localhost:8000/candid?canisterId=ic:34D619859D066E8424
@@ -119,7 +119,7 @@ crusso@crusso-Virtual-Machine:~/shield$ firefox http://localhost:8000/candid?can
 
 # Opening canister frontend UI
 
-E.g. (using the actual caniser ID)
+E.g. (but using the actual canister ID returned on installation)
 
 ```bash
 crusso@crusso-Virtual-Machine:~/shield$ firefox http://localhost:8000/canisterId=ic:34D619859D066E8424
