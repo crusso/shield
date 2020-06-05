@@ -10,7 +10,7 @@ actor {
      M.HashMap<T.UserId,(T.User,[T.Request])>(100,func (p1 : Principal,p2:Principal) = p1 == p2, Id.hash);
    
     var Helpers =
-     M.HashMap<T.UserId,T.Helper>(100,func (p1 : Principal,p2:Principal) = p1 == p2, Id.hash);
+     M.HashMap<T.HelperId,T.Helper>(100,func (p1 : Principal,p2:Principal) = p1 == p2, Id.hash);
    
     // delete me
     public func greet(name : Text) : async Text {
