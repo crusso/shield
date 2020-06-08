@@ -25,14 +25,14 @@ actor {
     };
     
     public shared {caller} func registerHelper(h : T.Helper) : async T.HelperId {
-        switch (helpers.swap(caller, h)) {
+        switch (helpers.set(caller, h)) {
             case null caller;
             case (? _) { throw Prim.error("already registered") };
         };
     };
 
     public shared {caller} func registerUser(u : T.User) : async T.UserId {
-        switch (users.swap(caller, (u,[]))) {
+        switch (users.set(caller, (u,[]))) {
             case null caller;
             case (? _) { throw Prim.error("already registered") };
         };
@@ -47,9 +47,9 @@ actor {
               let rId = requestId;
               requestId += 1;
               // add rId to user's requests
-              users.set(caller,(u, Array.append([rId],rs)));
+              ignore users.set(caller,(u, Array.append([rId],rs)));
               // add rId to requests, initially #active
-              requests.set(rId, { info = r; status = #active; user = caller });
+              ignore requests.set(rId, { info = r; status = #active; user = caller });
               return rId;
             }
         };
