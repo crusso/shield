@@ -1,3 +1,5 @@
+import Principal = "mo:base/Principal";
+import Nat = "mo:base/Nat";
 
 module {
 
@@ -20,11 +22,8 @@ module {
   public type RequestType = {#grocery; #pharmacy};
   
   public type User = {
-    location: Location;
-    // Should the server know any of these?
     name: Name;
-    first: Text;
-    last: Text;
+    location: Location;
     age: Age;
     disability: ?Disability;
     address: [Text];
@@ -39,24 +38,43 @@ module {
     email: Text;
   };
 
-  public type Expiry = { Time: Nat};
+  public type Expiry = { time: Nat};
 
   public type Status = {
-    #Active: Expiry;
-    #Accepted: Helper;
-    #Delivered: Helper;
+    #active/*: Expiry*/;
+    #accepted: Helper;
+    #delivered: Helper;
   };
 
   public type Request = {
     requestType: RequestType;
     requestLocation: Location;
-    status: Status;
     note: Text;
     items: [Text];
   };
   
+  public type RequestState = { 
+    info : Request;
+    status : Status; 
+    user: UserId; 
+  };
+
   public type UserId = Principal;
-  
   public type HelperId = Principal;
+  public type RequestId = Nat;
+
+  // support for Hashing
+  public module CallerId = {
+     public func eq(id1 : Principal, id2 : Principal) : Bool { id1 == id2 };
+     public func hash(id : Principal) : Word32 { Principal.hash(id)};
+  };
+  
+  public let HelperId = CallerId;
+  public let UserId = CallerId;
+
+  public module RequestId = {
+     public func eq(id1 : Nat, id2 : Nat) : Bool { id1 == id2 };
+     public func hash(id : Nat) : Word32 { Nat.toWord32(id) };
+  };
 
 }
