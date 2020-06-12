@@ -39,7 +39,6 @@ actor {
     };
 
     public shared {caller} func postRequest(r : T.Request) : async T.RequestId {
-
         switch (users.get(caller)) {
             case null { throw Prim.error("unknown user") };
             case (? (u,rs)) {
@@ -56,7 +55,7 @@ actor {
         
     };
 
-    public shared query {caller} func userrequests() : async [(T.RequestId, T.RequestState)] {
+    public shared query {caller} func userRequests() : async [(T.RequestId, T.RequestState)] {
         let rs = switch (users.get(caller)) {
             case null { throw Prim.error("unknown user") };
             case (? (u,rs)) { rs };
