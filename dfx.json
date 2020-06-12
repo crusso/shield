@@ -5,6 +5,18 @@
         "entrypoint": "src/shield/public/index.js"
       },
       "main": "src/shield/main.mo"
+    },
+    "user-0": {
+      "frontend": {
+        "entrypoint": "src/shield/public/index.js"
+      },
+      "main": "src/user/main.mo"
+    },
+    "user-1": {
+      "frontend": {
+        "entrypoint": "src/shield/public/index.js"
+      },
+      "main": "src/user/main.mo"
     }
   },
   "defaults": {
