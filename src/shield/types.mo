@@ -1,7 +1,15 @@
-import Principal = "mo:base/Principal";
-import Nat = "mo:base/Nat";
+import DistanceMetric "mo:base/Float";
+import Math "mo:base/Float";
+import Nat "mo:base/Nat";
+import Prim "mo:prim";
+import Principal "mo:base/Principal";
+
 
 module {
+
+  public let pi : Float = 3.14;
+  public let pow : Float = 2.718;
+
 
   public type Location = {
     lat: Float;
@@ -77,4 +85,19 @@ module {
      public func hash(id : Nat) : Word32 { Nat.toWord32(id) };
   };
 
+public func deg2rad(deg: Float): Float {return deg * (pi/180)};
+
+public func square(x: Float): Float {return x**2};
+
+public func getDistanceFromLatLng(l1: Location, l2: Location) : Float { // miles optional
+  //if (miles == "undefined"){miles=false};
+  var r : Float = 6371; // radius of the earth in km
+  var dlat1 : Float = deg2rad(l1.lat);
+  var dlat2 : Float = deg2rad(l2.lat);
+  var lat_dif = dlat2 - dlat1;
+  var lng_dif = deg2rad(l2.lng-l1.lng);
+  var a = square(Prim.sin(lat_dif/2)) + Prim.cos(dlat1) * Prim.cos(dlat2) * square(Prim.sin(lng_dif/2));
+  var d : Float = 2 * r * Prim.sin(Prim.floatSqrt(a));
+  return d
+  }
 }
