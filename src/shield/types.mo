@@ -89,8 +89,12 @@ public func deg2rad(deg: Float): Float {return deg * (pi/180)};
 
 public func square(x: Float): Float {return x**2};
 
-public func getDistanceFromLatLng(l1: Location, l2: Location) : Float { // miles optional
-  //if (miles == "undefined"){miles=false};
+// this is not quite right yet..
+// use the formula from here instead:
+// https://en.wikipedia.org/wiki/Geographical_distance
+// Spherical Earth projected to a plane[edit].
+
+public func getDistanceFromLatLng(l1: Location, l2: Location) : Float { 
   var r : Float = 6371; // radius of the earth in km
   var dlat1 : Float = deg2rad(l1.lat);
   var dlat2 : Float = deg2rad(l2.lat);
