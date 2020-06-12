@@ -89,7 +89,7 @@ public func deg2rad(deg: Float): Float {return deg * (pi/180)};
 
 public func square(x: Float): Float {return x**2};
 
-// this is not quite right yet..
+// TODO(Jad): this is not quite right yet..
 // use the formula from here instead:
 // https://en.wikipedia.org/wiki/Geographical_distance
 // Spherical Earth projected to a plane[edit].
