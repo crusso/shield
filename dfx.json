@@ -1,22 +1,13 @@
 {
   "canisters": {
-    "shield": {
+    "tokenomics": {
       "frontend": {
-        "entrypoint": "src/shield/public/index.js"
+        "entrypoint": "src/tokenomics/public/index.js"
       },
-      "main": "src/shield/main.mo"
+      "main": "src/tokenomics/tokenomics.mo"
     },
-    "user-0": {
-      "frontend": {
-        "entrypoint": "src/shield/public/index.js"
-      },
-      "main": "src/user/main.mo"
-    },
-    "user-1": {
-      "frontend": {
-        "entrypoint": "src/shield/public/index.js"
-      },
-      "main": "src/user/main.mo"
+    "balance": {
+      "main": "src/balance/balance.mo"
     }
   },
   "defaults": {
@@ -26,7 +17,7 @@
     "start": {
       "address": "127.0.0.1",
       "port": 8000,
-      "serve_root": "canisters/shield/assets"
+      "serve_root": "canisters/tokenomics/assets"
     }
   },
   "dfx": "0.5.7",
