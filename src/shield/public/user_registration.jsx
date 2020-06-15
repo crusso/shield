@@ -27,7 +27,7 @@ export const UserRegistration = ({ state, user, registerUser }) => (
       <div>E-mail</div>
       <input
         id="name"
-        typ$Ge="email"
+        type="email"
         value={user.email}
         onChange={(ev) => (user.email = ev.target.value)}
       ></input>

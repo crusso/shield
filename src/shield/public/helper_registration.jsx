@@ -1,103 +1,82 @@
-const HelperRegistration = ({ setGlobalState, state, registerUser }) => (
-  <div style={{ "font-size": "30px" }}>
-    <div style={{ "background-color": "yellow" }}>
-      <p>SHIELD USER REGISTRATION</p>
-    </div>
-    <div
-      style={{
-        margin: "30px",
-        display: "grid",
-        "grid-template-columns": "200px auto",
-      }}
-    >
-      <div>First Name</div>
-      <input
-        id="first_name"
-        value={state.requesterDetails.name.first}
-        onChange={(ev) => (state.requesterDetails.name.first = ev.target.value)}
-      ></input>
-      <div>Last Name</div>
-      <input
-        id="last_name"
-        value={state.requesterDetails.name.last}
-        onChange={(ev) => (state.requesterDetails.name.last = ev.target.value)}
-      ></input>
-      <div>E-mail</div>
-      <input
-        id="name"
-        typ$Ge="email"
-        value={state.requesterDetails.email}
-        onChange={(ev) => (state.requesterDetails.email = ev.target.value)}
-      ></input>
-      <div>Address</div>
-      <div>
-        <input
-          id="address0"
-          value={state.requesterDetails.address[0]}
-          onChange={(ev) =>
-            (state.requesterDetails.address[0] = ev.target.value)
-          }
-        ></input>
-        <input
-          id="address1"
-          value={state.requesterDetails.address[1]}
-          onChange={(ev) =>
-            (state.requesterDetails.address[1] = ev.target.value)
-          }
-        ></input>
-        <input
-          id="address2"
-          value={state.requesterDetails.address[2]}
-          onChange={(ev) =>
-            (state.requesterDetails.address[2] = ev.target.value)
-          }
-        ></input>
-        <input
-          id="address3"
-          value={state.requesterDetails.address[3]}
-          onChange={(ev) =>
-            (state.requesterDetails.address[3] = ev.target.value)
-          }
-        ></input>
-        <input
-          id="address4"
-          value={state.requesterDetails.address[4]}
-          onChange={(ev) =>
-            (state.requesterDetails.address[4] = ev.target.value)
-          }
-        ></input>
+import * as React from "react";
+
+export const HelperRegistration = ({ state, helper, registerHelper }) => {
+  // Services is an array; this adds and removes entries to match checkbox updates.
+  const setService = (event) => {
+    helper.services = helper.services.filter(
+      (name) => name != event.target.name
+    );
+    if (event.target.checked) helper.services.push(event.target.name);
+    console.log(helper.services, {
+      value: event.target.value,
+      checked: event.target.checked,
+    });
+  };
+  return (
+    <div style={{ "font-size": "30px" }}>
+      <div style={{ "background-color": "yellow" }}>
+        <p>SHIELD HELPER REGISTRATION</p>
       </div>
-      <div>Age</div>
-      <input
-        id="age"
-        type="number"
-        min="0"
-        step="10"
-        placeholder="60"
-        value={state.requesterDetails.age}
-        onChange={(ev) =>
-          (state.requesterDetails.age = Number(ev.target.value))
-        }
-      ></input>
-      <div>Disability</div>
-      <div>
+      <div
+        style={{
+          margin: "30px",
+          display: "grid",
+          "grid-template-columns": "200px auto",
+        }}
+      >
+        <div>First Name</div>
         <input
-          type="radio"
-          id="disability-other"
-          name="disability"
-          value="other"
-          onChange={(ev) =>
-            (state.requesterDetails.disability = [{ other: null }])
-          }
+          id="first_name"
+          value={helper.name.first}
+          onChange={(ev) => (helper.name.first = ev.target.value)}
         ></input>
-        <label for="disability-other">Other</label>
+        <div>Last Name</div>
+        <input
+          id="last_name"
+          value={helper.name.last}
+          onChange={(ev) => (helper.name.last = ev.target.value)}
+        ></input>
+        <div>E-mail</div>
+        <input
+          id="name"
+          type="email"
+          value={helper.email}
+          onChange={(ev) => (helper.email = ev.target.value)}
+        ></input>
+        <div>radius (Km)</div>
+        <input
+          id="name"
+          type="number"
+          min="1"
+          value={helper.radiusKm}
+          onChange={(ev) => (helper.radiusKm = Number(ev.target.value))}
+        ></input>
+        <div>Request type</div>
+        <div>
+          <input
+            type="checkbox"
+            id="service-grocery"
+            name="grocery"
+            value="grocery"
+            onChange={(ev) => setService(ev)}
+            checked
+          ></input>
+          <label for="disability-other">Grocery</label>
+          <input
+            type="checkbox"
+            id="service-pharmacy"
+            name="pharmacy"
+            value="pharmacy"
+            onChange={(ev) => setService(ev)}
+            checked
+          ></input>
+          <label for="disability-other">Pharmacy</label>
+        </div>
+      </div>
+      <div>{state.errorMessage}</div>
+      <div>
+        <button onClick={() => registerHelper(helper)}>Register!</button>
       </div>
     </div>
-    <div>{state.errorMessage}</div>
-    <div>
-      <button onClick={() => registerUser(state.requesterDetails)}>
-        Get Greeting!
-      </button>
-    </div>
-  </div>
-);
+  );
+};

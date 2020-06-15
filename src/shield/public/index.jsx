@@ -66,18 +66,24 @@ class App extends React.Component {
       this.navigateTo(C.USER_DASHBOARD);
     } catch (e) {
       this.setState({ ...this.state, errorMessage: e.message });
-      console.error("XX", e.message);
     }
   };
-  registerHelper = async (state) => {
+  blankHelper = () => ({
+    name: { first: null, last: null },
+    radiusKm: 2,
+    email: null,
+    services: [],
+  });
+  registerHelper = async (helper) => {
     this.state.errorMessage = "";
     try {
-      const response = await shield.registerHelper(this.state.me.helper[0]);
+      helper.location = this.state.location;
+      const response = await shield.registerHelper(helper);
       console.log("registerHelper", response);
-      this.navigateTo(C.USER_DASHBOARD);
+      this.setState({ ...this.state, me: { user: [], helper: [helper] } });
+      this.navigateTo(C.HELPER_DASHBOARD);
     } catch (e) {
       this.setState({ ...this.state, errorMessage: e.message });
-      console.error("XX", e.message);
     }
   };
   render() {
@@ -100,9 +106,14 @@ class App extends React.Component {
       );
     } else if (this.state.view === C.HELPER_REGISTRATION) {
       console.log("Rendering", this.state.view);
+      let helper = this.state.me.helper[0]
+        ? { ...this.state.me.helper[0] }
+        : this.blankHelper();
+      console.log(helper);
       return (
         <HelperRegistration
-          state={this.state.me.helper[0]}
+          state={this.state}
+          helper={helper}
           registerHelper={this.registerHelper}
         />
       );
