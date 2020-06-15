@@ -13,18 +13,7 @@ export const UserDashboard = ({ setGlobalState, state }) => (
       }}
     >
       <div>Name</div>
-      <input
-        id="name"
-        value={state.requesterDetails.name}
-        onChange={(ev) => (state.requesterDetails.name = ev.target.value)}
-      ></input>
     </div>
-    <div>
-      <button
-        onClick={() => setGlobalState({ ...state, view: "UserDashboard" })}
-      >
-        Get Greeting!
-      </button>
-    </div>
+    <div></div>
   </div>
 );
