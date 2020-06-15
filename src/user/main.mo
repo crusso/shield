@@ -102,7 +102,7 @@ let helper =
        address= ["Dreispitz 98, 8050, Zurich"];
        location = {lat =47.409965 ; lng = 8.566219};
        radiusKm =100;
-       services: ["grocery"];
+       services = #grocery;
        email = {"ironman@boo.com"};
       }, 
       { 
@@ -110,7 +110,7 @@ let helper =
        address= ["Eschenweg 8, 8057, Zurich"];
        location = {lat = 47.403721; lng = 8.542631};
        radiusKm =100;
-       services: ["grocery"];
+       services = #grocery;
        email = {"captainamerica@boo.com"};
       }, 
       { 
@@ -118,7 +118,7 @@ let helper =
        address= ["Häderlihof 12, 8057, Zurich"];
        location = {lat = 47.398029; lng = 8.540589};
        radiusKm =50;
-       services: ["grocery"];
+       services = #grocery;
        email = {"hulkangry@boo.com"};
       },
       { 
@@ -126,7 +126,7 @@ let helper =
        address= ["Abeggweg 4, 8057, Zurich"];
        location = {lat = 47.393971; lng = 8.534722};
        radiusKm =100;
-       services: ["grocery"];
+       services= #grocery;
        email = {"thorasgard@boo.com"};
       },
       { 
@@ -134,7 +134,7 @@ let helper =
        address= ["Griesernweg 22, 8037, Zurich"];
        location = {lat = 47.397174; lng = 8.519152};
        radiusKm =100;
-       services: ["grocery"];
+       services = #grocery;
        email = {"arrowbow@boo.com"};
       },
       { 
@@ -142,7 +142,7 @@ let helper =
        address= ["Hohlstrasse 82, 8004, Zurich"];
        location = {lat = 47.378471; lng = 8.524024};
        radiusKm =100;
-       services: ["grocery"];
+       services = #grocery;
        email = {"lokielf@boo.com"};
       },
       { 
@@ -150,7 +150,7 @@ let helper =
        address= ["Rieterstrasse 12, 8002, Zurich"];
        location = {lat = 47.360168; lng = 8.525576};
        radiusKm =100;
-       services: ["grocery"];
+       services = #grocery;
        email = {"nickfury@boo.com"};
       },
       { 
@@ -158,7 +158,7 @@ let helper =
        address= ["Kleinalbis 106, 8045, Zurich"];
        location = {lat = 47.357722; lng = 8.506247};
        radiusKm =100;
-       services: ["grocery"];
+       services = #grocery;
        email = {"spiderman@boo.com"};
       },
       { 
@@ -166,7 +166,7 @@ let helper =
        address= ["Im wyl 12, 8055, Zurich"];
        location = {lat = 47.367446; lng = 8.514174};
        radiusKm =100;
-       services: ["grocery"];
+       services = #grocery;
        email = {"Stanlee@boo.com"};
       },
       { 
@@ -174,7 +174,7 @@ let helper =
        address= ["Hornbachstrasse 63, 8008, Zurich"];
        location = {lat = 47.356403; lng = 8.556218};
        radiusKm =100;
-       services: ["grocery"];
+       services = #grocery;
        email = {"ericselvig@boo.com"};
       },
    ];

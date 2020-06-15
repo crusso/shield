@@ -99,7 +99,7 @@ public func getDistanceFromLatLng(l1: Location, l2: Location) : Float {
   var lat_dif = dlat2 - dlat1;
   var lng_dif = deg2rad(l2.lng-l1.lng);
   var MeanLatitude : Float = (dlat1+dlat2)/2;
-  var d : Float = r*(**0.5(lat_dif**2+(Prim.cos(MeanLatitude)*lng_dif)**2));
+  var d : Float = r*((lat_dif**2+(Prim.cos(MeanLatitude)*lng_dif)**2)**0.5);
   return d //
   }
 }
