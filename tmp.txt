@@ -1,5 +1,0 @@
-Installing code for canister balance, with canister_id ic:824587F02A7ECC636A
-Installing code for canister shield, with canister_id ic:BD5B58DBF141407C9E
-Installing code for canister tokenomics, with canister_id ic:A11C461509A16B528F
-Installing code for canister user-0, with canister_id ic:BEC5E0E1BF49826DE7
-Installing code for canister user-1, with canister_id ic:4758B4AA7EFBE1A35A
