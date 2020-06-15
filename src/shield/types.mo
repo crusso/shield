@@ -46,6 +46,11 @@ module {
     email: Text;
   };
 
+  public type Hominid = {
+    user: ?User;
+    helper: ?Helper;
+  };
+
   public type Expiry = { time: Nat};
 
   public type Status = {

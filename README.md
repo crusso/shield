@@ -124,3 +124,12 @@ E.g. (but using the actual canister ID returned on installation)
 ```bash
 crusso@crusso-Virtual-Machine:~/shield$ firefox http://localhost:8000/canisterId=ic:34D619859D066E8424
 ```
+
+# Test Script
+
+```bash
+./run.sh
+```
+
+Runs a little test script that starts dfx, installs all canisters, and starts some user canisters.
+

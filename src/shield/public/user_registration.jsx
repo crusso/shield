@@ -1,6 +1,6 @@
 import * as React from "react";
 
-export const RequesterRegistration = ({ setGlobalState, state, registerUser }) => (
+export const UserRegistration = ({ setGlobalState, state, registerUser }) => (
   <div style={{ "font-size": "30px" }}>
     <div style={{ "background-color": "yellow" }}>
       <p>SHIELD USER REGISTRATION</p>
