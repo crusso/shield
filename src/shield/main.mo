@@ -1,10 +1,12 @@
 import Array "mo:base/Array";
 import Id "mo:base/Principal";
+import Iter "mo:base/Iter";
 import M "mo:base/HashMap";
 import N "mo:base/Nat";
 import Option "mo:base/Option";
 import Prim "mo:prim";
 import T "./types";
+import Types "types";
 
 actor {
 
@@ -77,6 +79,67 @@ actor {
         return Array.map<T.RequestId,(T.RequestId,T.RequestState)>
            (func r { (r,Option.unwrap(requests.get(r))) },rs);
     };
+
+    public shared {caller} func confirmRequest(rid: T.RequestId) : async Bool {
+        let u = switch (users.get(caller)) {
+            case null { throw Prim.error("unknown user") };
+            case (?h) { h };
+        };
+        let rs = switch (requests.get(rid)) {
+            case null { throw Prim.error("unknown request") };
+            case (? rs) { rs };
+        };
+        if (rs.user != caller) return false; // can't confirm other's requests
+        let delivered = switch (rs.status) {
+            case (#accepted h) {
+                // TODO: balance.transfer(h,rs.info.reward) - held in escrow by shield?;
+                #confirmed;
+            };
+            case _ { return false; }
+        };
+        // update request status;        
+        ignore requests.set(rid, { info = rs.info; status = delivered; user = rs.user });
+        return true;
+    };
+
+    // Helper Interface
+    public shared query {caller} func findRequests() : async [(T.RequestId, T.Request)] {
+        let h = switch (helpers.get(caller)) {
+            case null { throw Prim.error("unknown helper") };
+            case (?h) { h };
+        };
+        func filter(rid:T.RequestId, rs: T.RequestState) : ? T.Request {
+            if (Types.getDistanceFromLatLng(h.location, rs.info.requestLocation) <= h.radiusKm
+                //and ... preference ok ....
+               ) 
+            { ? rs.info;
+            }
+            else null;
+        };
+        let rs = M.mapFilter(requests, T.RequestId.eq, T.RequestId.hash, filter);
+
+        return Iter.toArray(rs.iter());
+    };
+
+    
+    public shared {caller} func acceptRequest(rid: T.RequestId) : async Bool {
+        let h = switch (helpers.get(caller)) {
+            case null { throw Prim.error("unknown helper") };
+            case (?h) { h };
+        };
+        let rs = switch (requests.get(rid)) {
+            case null { throw Prim.error("unknown request") };
+            case (? rs) { rs };
+        };
+        let accepted = switch (rs.status) {
+            case (#active) (#accepted caller);
+            case _ { return false; }
+        };
+        // update request status;        
+        ignore requests.set(rid,{info = rs.info; status = accepted; user = rs.user });
+        return true;
+    };
+
 
 };
 

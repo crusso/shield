@@ -55,7 +55,7 @@ module {
 
   public type Status = {
     #active/*: Expiry*/;
-    #accepted: Helper;
+    #accepted: HelperId;
     #confirmed;
   };
 
