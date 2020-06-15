@@ -107,6 +107,6 @@ public func getDistanceFromLatLng(l1: Location, l2: Location) : Float {
   var lng_dif = deg2rad(l2.lng-l1.lng);
   var a = square(Prim.sin(lat_dif/2)) + Prim.cos(dlat1) * Prim.cos(dlat2) * square(Prim.sin(lng_dif/2));
   var d : Float = 2 * r * Prim.sin(Prim.floatSqrt(a));
-  return d
+  return d //
   }
 }
