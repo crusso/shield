@@ -24,7 +24,8 @@ actor {
         return "Hello, " # name # "!";
     };
 
-    public shared query {caller} func whoAmIAndHowDidIgetHere() : async T.Hominid {
+    public shared query {caller} func whoAmIAndHowDidIGetHere() : async T.Hominid {
+        // No idea how you got here but I know who you are, earthling!
         let u: ?T.User = switch (users.get(caller)) {
             case null { null };
             case (? (user,rs)) { ?user };

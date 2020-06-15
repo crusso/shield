@@ -1,6 +1,6 @@
 import * as React from "react";
 
-const RequesterDashboard = ({ setGlobalState, state }) => (
+export const UserDashboard = ({ setGlobalState, state }) => (
   <div style={{ "font-size": "30px" }}>
     <div style={{ "background-color": "yellow" }}>
       <p>SHIELD USER DASHBOARD</p>
@@ -21,7 +21,7 @@ const RequesterDashboard = ({ setGlobalState, state }) => (
     </div>
     <div>
       <button
-        onClick={() => setGlobalState({ ...state, view: "RequesterDashboard" })}
+        onClick={() => setGlobalState({ ...state, view: "UserDashboard" })}
       >
         Get Greeting!
       </button>
