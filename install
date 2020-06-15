@@ -1,0 +1,1 @@
+dfx canister install shield 2>&1 | sed -nr 's/.* (ic:[0-9A-F]+).*/\1/g;ta;b;:a;p;q' > ,canister-id
