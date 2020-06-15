@@ -23,6 +23,19 @@ actor {
     public func greet(name : Text) : async Text {
         return "Hello, " # name # "!";
     };
+
+    public shared query {caller} func whoAmIAndHowDidIgetHere() : async T.Hominid {
+        let u: ?T.User = switch (users.get(caller)) {
+            case null { null };
+            case (? (user,rs)) { ?user };
+        };
+        let h: ?T.Helper = switch (helpers.get(caller)) {
+            case null { null };
+            case (? helper) { ?helper };
+        };
+        let ans: T.Hominid = { user=u; helper=h; };
+        return ans;
+    };
     
     public shared {caller} func registerHelper(h : T.Helper) : async T.HelperId {
         switch (helpers.set(caller, h)) {
