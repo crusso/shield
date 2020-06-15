@@ -19,16 +19,7 @@ class App extends React.Component {
       location: { lat: null, lng: null },
       errorMessage: "",
     };
-    // TODO: Move this out into a separate function.
-    navigator.geolocation.getCurrentPosition((location) => {
-      // TODO: Handle user rejection
-      const { latitude, longitude } = location.coords;
-      location = { lat: latitude, lng: longitude };
-      this.state.me.user.forEach((user) => (user.location = location));
-      this.state.me.helper.forEach((user) => (user.location = location));
-      this.state.location = location;
-      console.log(this.state.me);
-    });
+    this.getLocation();
     this.routeUser();
   }
 
@@ -86,6 +77,21 @@ class App extends React.Component {
       this.setState({ ...this.state, errorMessage: e.message });
     }
   };
+  getLocation() {
+    return new Promise((yay, nay) => {
+      navigator.geolocation.getCurrentPosition((location) => {
+        console.log({ location });
+        // TODO: Handle user rejection
+        const { latitude, longitude } = location.coords;
+        location = { lat: latitude, lng: longitude };
+        this.state.me.user.forEach((user) => (user.location = location));
+        this.state.me.helper.forEach((user) => (user.location = location));
+        this.state.location = location;
+        console.log(this.state.me);
+        yay();
+      });
+    });
+  }
   render() {
     if (this.state.view === C.USER_REGISTRATION) {
       let user = this.state.me.user[0]
