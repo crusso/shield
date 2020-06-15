@@ -2,6 +2,18 @@ import shield from 'ic:canisters/shield';
 import * as React from 'react';
 import { render } from 'react-dom';
 
+
+const FrontPage = ({ navigateTo }) => (
+      <div style={{ "font-size": "30px" }}>
+        <div style={{ "background-color": "yellow" }}>
+          <p>HELLO SHIELD</p>
+        </div>
+        <div><button onClick={() => navigateTo("RequesterRegistration")}>I need help</button></div>
+        <div><button onClick={() => navigateTo("HelperRegistration")}>I want to help!</button></div>
+      </div>
+    );
+
+
 const RequesterRegistration = ({ setGlobalState, state, registerUser }) => (
       <div style={{ "font-size": "30px" }}>
         <div style={{ "background-color": "yellow" }}>
@@ -10,7 +22,7 @@ const RequesterRegistration = ({ setGlobalState, state, registerUser }) => (
         <div style={{ "margin": "30px", "display": "grid", "grid-template-columns": "200px auto" }}>
           <div>First Name</div><input id="first_name" value={state.requesterDetails.name.first} onChange={ev => state.requesterDetails.name.first = ev.target.value}></input>
           <div>Last Name</div><input id="last_name" value={state.requesterDetails.name.last} onChange={ev => state.requesterDetails.name.last = ev.target.value}></input>
-          <div>E-mail</div><input id="name" type="email" value={state.requesterDetails.email} onChange={ev => state.requesterDetails.email = ev.target.value}></input>
+          <div>E-mail</div><input id="name" typ$Ge="email" value={state.requesterDetails.email} onChange={ev => state.requesterDetails.email = ev.target.value}></input>
           <div>Address</div><div>
               <input id="address0" value={state.requesterDetails.address[0]} onChange={ev => state.requesterDetails.address[0] = ev.target.value}></input>
               <input id="address1" value={state.requesterDetails.address[1]} onChange={ev => state.requesterDetails.address[1] = ev.target.value}></input>
@@ -45,7 +57,7 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-        view: 'RequesterRegistration',
+        view: '',
         requesterDetails: {name: {first: null, last: null}, email: null, address: [], age:undefined, disability: [] },
         errorMessage: "",
     };
@@ -57,9 +69,15 @@ class App extends React.Component {
     });
   }
 
-  setGlobalState = (requesterDetails) => {
-    this.setState(requesterDetails);
-    console.log("Set view to", name, requesterDetails);
+  setGlobalState = (state) => {
+    console.log("Set", state);
+    this.setState(state);
+    console.log("Set state to", state);
+  };
+  navigateTo = (view) => {
+    console.log("Set", view);
+    this.setState({...this.state, view});
+    console.log("Set view to", view);
   };
 
   async doGreet() {
@@ -85,8 +103,10 @@ class App extends React.Component {
   render() {
     if (this.state.view === 'RequesterRegistration') {
         return <RequesterRegistration state={this.state} setGlobalState={this.setGlobalState} registerUser={this.registerUser} />;
-    } else {
+    } else if (this.state.view === 'RequesterDashboard') {
         return <RequesterDashboard setGlobalState={this.setState} state={this.state} />;
+    } else {
+        return <FrontPage navigateTo={this.navigateTo} />;
     }
   }
 }
