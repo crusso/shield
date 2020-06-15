@@ -12,16 +12,64 @@
       },
       "main": "src/shield/main.mo"
     },
-    "user-0": {
-      "frontend": {
-        "entrypoint": "src/shield/public/index.jsx"
-      },
+    "user": {
       "main": "src/user/main.mo"
     },
     "user-1": {
-      "frontend": {
-        "entrypoint": "src/shield/public/index.jsx"
-      },
+      "main": "src/user/main.mo"
+    },
+    "user-2": {
+      "main": "src/user/main.mo"
+    },
+    "user-3": {
+      "main": "src/user/main.mo"
+    },
+    "user-4": {
+      "main": "src/user/main.mo"
+    },
+    "user-5": {
+      "main": "src/user/main.mo"
+    },
+    "user-6": {
+      "main": "src/user/main.mo"
+    },
+    "user-7": {
+      "main": "src/user/main.mo"
+    },
+    "user-8": {
+      "main": "src/user/main.mo"
+    },
+    "user-9": {
+      "main": "src/user/main.mo"
+    },
+    "helper": {
+      "main": "src/user/main.mo"
+    },
+    "helper-1": {
+      "main": "src/user/main.mo"
+    },
+    "helper-2": {
+      "main": "src/user/main.mo"
+    },
+    "helper-3": {
+      "main": "src/user/main.mo"
+    },
+    "helper-4": {
+      "main": "src/user/main.mo"
+    },
+    "helper-5": {
+      "main": "src/user/main.mo"
+    },
+    "helper-6": {
+      "main": "src/user/main.mo"
+    },
+    "helper-7": {
+      "main": "src/user/main.mo"
+    },
+    "helper-8": {
+      "main": "src/user/main.mo"
+    },
+    "helper-9": {
       "main": "src/user/main.mo"
     }
   },

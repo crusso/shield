@@ -55,8 +55,8 @@ module {
 
   public type Status = {
     #active/*: Expiry*/;
-    #accepted: Helper;
-    #delivered: Helper;
+    #accepted: HelperId;
+    #confirmed;
   };
 
   public type Request = {
@@ -64,6 +64,7 @@ module {
     requestLocation: Location;
     note: Text;
     items: [Text];
+    reward: Nat; // shields
   };
   
   public type RequestState = { 
