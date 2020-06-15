@@ -1,5 +1,11 @@
 {
   "canisters": {
+    "tokenomics": {
+      "main": "src/tokenomics/tokenomics.mo"
+    },
+    "balance": {
+      "main": "src/balance/balance.mo"
+    },
     "shield": {
       "frontend": {
         "entrypoint": "src/shield/public/index.jsx"
