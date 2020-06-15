@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+set -eux
+dfx build
+dfx canister install shield 2>&1 | gsed -nr 's/.* (ic:[0-9A-F]+).*/\1/g;ta;b;:a;p;q' > ,canister-id

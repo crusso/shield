@@ -47,7 +47,8 @@ export const HelperRegistration = ({ state, helper, registerHelper }) => {
         <input
           id="name"
           type="number"
-          min="1"
+          min="{1}"
+          placeholder="10"
           value={helper.radiusKm}
           onChange={(ev) => (helper.radiusKm = Number(ev.target.value))}
         ></input>

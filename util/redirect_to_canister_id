@@ -1,0 +1,18 @@
+#!/usr/bin/env node
+// Redirect http requests to the latest canister ID
+// The canister ID is written by running `util/install`.
+var http = require('http');
+var fs = require('fs');
+
+http.createServer(onRequest).listen(80);
+
+function onRequest(client_req, client_res) {
+  let canisterId = fs.readFileSync(",canister_id", {encoding: "utf8"}).trim();
+  let url = `http://localhost:8000/?canisterId=${canisterId}`;
+  console.log('serve:', client_req.url, '->', url);
+
+  client_res.writeHead(302, {
+    'Location': url
+  });
+  client_res.end();
+}

@@ -143,6 +143,26 @@ actor {
         return true;
     };
 
+    // TODO: Filter by distance.
+    // TODO: Maybe redact the helper info.
+    public shared {caller} func findHelpers() : async [(T.HelperId, T.Helper)] {
+        let u = switch (users.get(caller)) {
+            case null { throw Prim.error("unknown user") };
+            case (?u) { u };
+        };
+        func filter(hid:T.HelperId, h: T.Helper) : ? T.Helper {
+            if (
+                true
+                //Types.getDistanceFromLatLng(h.location, u.location) <= h.radiusKm
+               ) 
+            { ? h;
+            }
+            else null;
+        };
+        // <K, V1, V2>(HashMap<K, V1>, (K, K) -> Bool, K -> Hash, (K, V1) -> ?V2) -> HashMap<K, V2>
+        let hs = M.mapFilter(helpers, T.HelperId.eq, T.HelperId.hash, filter);
 
+        return Iter.toArray(hs.iter());
+    }
 };
 

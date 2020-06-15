@@ -4,8 +4,10 @@ import { render } from "react-dom";
 import { UserRegistration } from "./user_registration.jsx";
 import { UserDashboard } from "./user_dashboard.jsx";
 import { HelperRegistration } from "./helper_registration.jsx";
+import { HelperDashboard } from "./helper_dashboard.jsx";
 import { FrontPage } from "./front_page.jsx";
 import * as C from "./const.js";
+import { leaflet, mapbox_token } from "./lib/leaflet-src.js";
 
 class App extends React.Component {
   constructor(props) {
@@ -18,6 +20,9 @@ class App extends React.Component {
       },
       location: { lat: null, lng: null },
       errorMessage: "",
+      nearbyHelpers: [],
+      nearbyHelperMarkers: [],
+      myMap: null,
     };
     this.getLocation();
     this.routeUser();
@@ -38,7 +43,7 @@ class App extends React.Component {
     console.log({ me });
     this.setState({ ...this.state, me });
     me.user.forEach((_) => this.navigateTo(C.USER_DASHBOARD));
-    me.helper.forEach((_) => this.navigateTo(HELPER_DASHBOARD));
+    me.helper.forEach((_) => this.navigateTo(C.HELPER_DASHBOARD));
   }
   blankUser = () => ({
     name: { first: null, last: null },
@@ -61,7 +66,7 @@ class App extends React.Component {
   };
   blankHelper = () => ({
     name: { first: null, last: null },
-    radiusKm: 2,
+    radiusKm: null,
     email: null,
     services: [],
   });
@@ -92,6 +97,34 @@ class App extends React.Component {
       });
     });
   }
+  findHelpers = async () => {
+    console.log("Finding helpers");
+    let nearbyHelpers = await shield.findHelpers();
+    console.log({helpers: nearbyHelpers});
+    this.setState({...this.state, nearbyHelpers});
+  };
+  makeMap = async (location) => {
+    if (this.state.myMap !== null) return;
+    const {lat,lng} = location;
+    var myMap = L.map("mapid").setView([lat, lng], 13);
+
+    // Fill in the map:
+    window.L.tileLayer(
+      "https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}",
+      {
+        attribution:
+          'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+        maxZoom: 18,
+        id: "mapbox/streets-v11",
+        tileSize: 512,
+        zoomOffset: -1,
+        accessToken: mapbox_token,
+      }
+    ).addTo(myMap);
+    this.setState(...this.state, myMap);
+    await this.findHelpers();
+    state.nearbyHelperMarkers = state.nearbyHelpers.map(helper => L.marker([helper.location.lat, helper.location.lng]).addTo(mymap));
+  };
   render() {
     if (this.state.view === C.USER_REGISTRATION) {
       let user = this.state.me.user[0]
@@ -107,8 +140,9 @@ class App extends React.Component {
       );
     } else if (this.state.view === C.USER_DASHBOARD) {
       console.log("Rendering", this.state.view);
+      this.findHelpers();
       return (
-        <UserDashboard setGlobalState={this.setState} state={this.state} />
+        <UserDashboard setGlobalState={this.setState} state={this.state} makeMap={this.makeMap} />
       );
     } else if (this.state.view === C.HELPER_REGISTRATION) {
       console.log("Rendering", this.state.view);

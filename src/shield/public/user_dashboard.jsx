@@ -1,24 +1,12 @@
 console.log("Loading user dashboard");
 
 import * as React from "react";
-import { leaflet, mapbox_token } from "./lib/leaflet-src.js";
 
-export const UserDashboard = ({ setGlobalState, state }) => {
+export const UserDashboard = ({ setGlobalState, state, makeMap }) => {
+  console.log("Rendering nearby helpers", state.nearbyHelpers.length);
+
   after_load(() => {
-    var mymap = L.map("mapid").setView([51.505, -0.09], 13);
-
-    window.L.tileLayer(
-      "https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}",
-      {
-        attribution:
-          'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
-        maxZoom: 18,
-        id: "mapbox/streets-v11",
-        tileSize: 512,
-        zoomOffset: -1,
-        accessToken: mapbox_token,
-      }
-    ).addTo(mymap);
+    makeMap(state.me.user[0].location);
   });
 
   console.log("leaflet", leaflet);
@@ -34,7 +22,10 @@ export const UserDashboard = ({ setGlobalState, state }) => {
           "grid-template-columns": "200px auto",
         }}
       >
-        <div>Name</div>
+        <div>
+          <div>Hello {state.me.user[0].name.first}.</div>
+          <div>{state.nearbyHelpers.length===0?"We are looking for helpers near you.":`There are ${state.nearbyHelpers.length} helpers living near you.`}</div>
+        </div>
         <div id="mapid" style={{ height: "180px" }}></div>
       </div>
       <div></div>
