@@ -1,17 +1,18 @@
 import shield from "ic:canisters/shield";
 import * as React from "react";
 import { render } from "react-dom";
-import { RequesterRegistration } from "./requester_registration.jsx";
-import { RequesterDashboard } from "./requester_dashboard.jsx";
+import { UserRegistration } from "./user_registration.jsx";
+import { UserDashboard } from "./user_dashboard.jsx";
 import { HelperRegistration } from "./helper_registration.jsx";
 import { FrontPage } from "./front_page.jsx";
-
+import * as C from "./const.js";
 
 class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       view: "",
+      me: null,
       requesterDetails: {
         name: { first: null, last: null },
         email: null,
@@ -21,6 +22,7 @@ class App extends React.Component {
       },
       errorMessage: "",
     };
+    // TODO: Move this out into a separate function.
     navigator.geolocation.getCurrentPosition((location) => {
       // TODO: Handle user rejection
       const { latitude, longitude } = location.coords;
@@ -30,6 +32,7 @@ class App extends React.Component {
       };
       console.log(this.state.requesterDetails);
     });
+    this.routeUser();
   }
 
   setGlobalState = (state) => {
@@ -42,41 +45,37 @@ class App extends React.Component {
     this.setState({ ...this.state, view });
     console.log("Set view to", view);
   };
-
-  async doGreet() {
-    const greeting = await shield.greet(this.state.name);
-    this.setState({ ...this.state, message: greeting });
+  async routeUser() {
+    const me = await shield.whoAmIAndHowDidIGetHere();
+    console.log({ me });
+    this.setState({ ...this.state, me });
+    me.user.forEach((_) => this.navigateTo(C.USER_DASHBOARD));
+    me.helper.forEach((_) => this.navigateTo(HELPER_DASHBOARD));
   }
-
   registerUser = async (state) => {
     this.state.errorMessage = "";
     try {
       const response = await shield.registerUser(this.state.requesterDetails);
       console.log("registerUser", response);
+      this.navigateTo(C.USER_DASHBOARD);
     } catch (e) {
       this.setState({ ...this.state, errorMessage: e.message });
       console.error("XX", e.message);
     }
   };
-
-  onNameChange(ev) {
-    this.setState({ ...this.state, name: ev.target.value });
-  }
-
   render() {
-    if (this.state.view === "RequesterRegistration") {
+    if (this.state.view === C.USER_REGISTRATION) {
+      console.log("Rendering", this.state.view);
       return (
-        <RequesterRegistration
-          state={this.state}
-          setGlobalState={this.setGlobalState}
-          registerUser={this.registerUser}
-        />
+        <UserRegistration state={this.state} registerUser={this.registerUser} />
       );
-    } else if (this.state.view === "RequesterDashboard") {
+    } else if (this.state.view === C.USER_DASHBOARD) {
+      console.log("Rendering", this.state.view);
       return (
-        <RequesterDashboard setGlobalState={this.setState} state={this.state} />
+        <UserDashboard setGlobalState={this.setState} state={this.state} />
       );
     } else {
+      console.log("Rendering", this.state.view, "as", "FrontPage");
       return <FrontPage navigateTo={this.navigateTo} />;
     }
   }
