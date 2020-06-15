@@ -109,8 +109,11 @@ actor {
             case (?h) { h };
         };
         func filter(rid:T.RequestId, rs: T.RequestState) : ? T.Request {
-            if (Types.getDistanceFromLatLng(h.location, rs.info.requestLocation) <= h.radiusKm
-                //and ... preference ok ....
+            if ((switch (rs.status) {
+                   case (#active) true;
+                   case _ false }) 
+                and 
+                Types.getDistanceFromLatLng(h.location, rs.info.requestLocation) <= h.radiusKm
                ) 
             { ? rs.info;
             }

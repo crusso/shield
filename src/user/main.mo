@@ -189,14 +189,45 @@ actor {
        if started assert(false);
        started := true;
        // logging helper
-       let user = Nat.toText(user_no);
+       let user_text = Nat.toText(user_no);
        func log(t : Text) { 
-         Debug.print("User " # user # ": " # t);
+         Debug.print("User " # user_text # ": " # t);
        };
+       let user = users[user_no % users.len()];
 
        log("started user");
-       let uid = await shield.registerUser(users[user_no % users.len()]);  
-       log("registered user")
+       let uid = await shield.registerUser(user);  
+       log("registered user");
+
+       //make one request
+       let rid = await shield.postRequest({
+          requestType = #grocery;
+          requestLocation = user.location; //hack
+          note = "cheers";
+          items = ["ciggies"];
+          reward = 1;
+       }); 
+       log("posted request " # Nat.toText(rid));
+       // loop until first acceptance, confirm it
+       label poll {
+       loop {
+          let reqs = await shield.userRequests();
+          for ((rid, state) in reqs.vals()) {
+             switch (state.status) {
+               case (#accepted h)  { 
+                 if (await shield.confirmRequest(rid)) {
+                   log("confirmed request");
+                   break poll; 
+                 }
+               };
+               case _ { //continue 
+               }
+             }
+          }
+        };
+        // exit
+        log("user done");
+       }
 
        // make and accept some requests.      
     };
@@ -212,8 +243,19 @@ actor {
 
        log("started helper");
        let uid = await shield.registerHelper(helpers[helper_no % helpers.len()]);  
-       log("registered helper")
-
+       log("registered helper");
+       let reqs = await shield.findRequests();
+       label poll {
+         loop {
+           for ((rid, info) in reqs.vals()) {
+             if (await shield.acceptRequest(rid)) { 
+                log("accepted request" # Nat.toText(rid));
+                break poll;
+             };
+           };
+         };
+       };
+       log("helper done");
        // make and accept some requests.      
     }
 
