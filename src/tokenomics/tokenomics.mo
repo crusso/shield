@@ -1,9 +1,11 @@
 import Debug "mo:base/Debug";
+import Float "mo:base/Float";
+import Int "mo:base/Int";
 
 actor {
     var PhiSupply : Nat = 0;
     var ShieldSupply : Nat = 0;
-    var ExchangeRate : Nat = 0;
+    var ExchangeRate : Float = 0;
     var NumberElder : Nat = 0;
     var NumberHelper : Nat = 0;
 
@@ -32,9 +34,9 @@ actor {
 
 
     // ???
-    public func exchangeRate() : async Nat {
+    public func exchangeRate() : async Float {
     if (ShieldSupply : Nat != 0)
-       ExchangeRate := PhiSupply/ShieldSupply;
+       ExchangeRate := Float.ofInt64 (Int.toInt64(PhiSupply))/Float.ofInt64 (Int.toInt64(ShieldSupply));
     return ExchangeRate};
 
    //???
