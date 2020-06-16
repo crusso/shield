@@ -1,5 +1,15 @@
 # shield
 
+Project Shield is a POC volunteering app, matching helpers/volunteers with users, requiring assistance (for shopping requests).
+
+[Screenshot](./images/shield.png)
+
+
+[Supporting materials](https://drive.google.com/drive/folders/1XYAEynOAmfndBrFJzErdAYPyOF3b_27t)
+
+[Video](https://drive.google.com/file/d/1Y2Vmm9DxZuv0Psp2bopxq7nPrEjJInMS/view?usp=sharing)
+
+
 Welcome to your new shield project and to the internet computer development community. By default, creating a new project adds this README and some template files to your project directory. You can edit these template files to customize your project and to include your own code to speed up the development cycle.
 
 To get started, you might want to explore the project directory structure and the default configuration file. Working with this project in your development environment will not affect any production deployment or identity tokens.
