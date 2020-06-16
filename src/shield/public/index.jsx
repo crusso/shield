@@ -29,8 +29,8 @@ class App extends React.Component {
       location: { lat: null, lng: null },
       errorMessage: "",
       nearbyHelpers: null,
-      requests: null, // Requests posted or accepted by this user/helper.
-      open_requests: null, // Unclaimed requests.
+      requests: [], // Requests posted or accepted by this user/helper.
+      open_requests: [], // Unclaimed requests.
       balance: 0,
       newRequest: this.blankRequest(), // Stash partially completed requests so that the user doesn't have to re-enter details; does not survive the user doing a hard refresh.
     };
@@ -223,8 +223,8 @@ class App extends React.Component {
       request.requestLocation = this.state.location;
       request.reward = 1; // Fixed reward as a matter of policy but that may change.
       await shield.postRequest(request);
-      this.state.requests.push({ _1_: request });
-      this.setState(this.state);
+      this.getUserRequests();
+      this.setState({ ...this.state, newRequest: this.blankRequest() });
       this.navigateTo(C.USER_DASHBOARD);
     } catch (e) {
       let errorMessage = e.message;

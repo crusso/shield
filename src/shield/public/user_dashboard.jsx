@@ -32,7 +32,9 @@ export const UserDashboard = ({ navigateTo, state, makeMap }) => {
           <div>
             {(state.nearbyHelpers || []).length === 0
               ? "We are looking for helpers near you."
-              : `There are ${state.nearbyHelpers.length} helpers living near you.`}
+              : `There are ${
+                  (state.nearbyHelpers || []).length
+                } helpers living near you.`}
           </div>
         </div>
         <div id="mapid" style={{ height: "180px" }}></div>
@@ -71,23 +73,21 @@ export const UserDashboard = ({ navigateTo, state, makeMap }) => {
                     backgroundColor: index % 2 === 0 ? "#EEEEEE" : "#EFEFEF",
                   }}
                 >
-                  <td>{Object.keys(request._1_.requestType)[0]}</td>
+                  <td>{JSON.stringify(request)}</td>
                   <td>
                     <button
-                      onClick={() => makeMarkers([request._1_.requestLocation])}
+                      onClick={() =>
+                        makeMarkers([request._1_.info.requestLocation])
+                      }
                     >
                       Show on map
                     </button>
                   </td>
                   <td>
-                    <ul>
-                      {(request._1_.items || []).map((item) => (
-                        <li>{item}</li>
-                      ))}
-                    </ul>
+                    <ul></ul>
                   </td>
-                  <td>{request._1_.note}</td>
-                  <td>{request._1_.reward} S</td>
+                  <td>{request._1_.info.note}</td>
+                  <td>{request._1_.info.reward} S</td>
                 </tr>
               ))
             ) : (
