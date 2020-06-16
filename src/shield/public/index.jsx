@@ -75,24 +75,28 @@ class App extends React.Component {
     }
   };
   getUserEnvironment = async () => {
-    await this.findHelpers();
-    await this.getUserRequests();
-    await this.getBalance().catch((e) =>
-      console.error("Failed to get balance", e.message)
-    );
+    await Promise.all([
+      this.findHelpers(),
+      this.getUserRequests(),
+      this.getBalance(),
+    ]);
   };
   getHelperEnvironment = async () => {
     await Promise.all([
       this.getHelperRequests(),
       this.getOpenRequests(),
-      this.getBalance().catch((e) =>
-        console.error("Failed to get balance:", e.message)
-      ),
+      this.getBalance(),
     ]);
   };
   getBalance = async () => {
-    let balance = await balance.checkAccount();
-    this.setState({ ...this.state, balance });
+    try {
+      var b = await balance.checkAccount();
+      b = Number(b[0]);
+      console.log({ balance: b });
+      this.setState({ ...this.state, balance: b });
+    } catch (e) {
+      console.error("Failed to get balance:", e.message);
+    }
   };
   getHelperRequests = async () => {
     let requests = await shield.helperRequests();
