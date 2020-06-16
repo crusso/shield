@@ -86,8 +86,8 @@ export const UserDashboard = ({ navigateTo, state, makeMap }) => {
                   <td>
                     <ul></ul>
                   </td>
-                  <td>{request._1_.info.note}</td>
-                  <td>{request._1_.info.reward} S</td>
+                  <td>{String(request._1_.info.note)}</td>
+                  <td>{String(["_1_", "info", "reward"].reduce((n,i) => n&&n[i], request))} S</td>
                 </tr>
               ))
             ) : (
