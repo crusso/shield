@@ -44,13 +44,57 @@ export const UserDashboard = ({ navigateTo, state, makeMap }) => {
             New Request!
           </button>
         </div>
-        {state.requests.length ? (
-          state.requests.map((request) => {
-            return <div>{JSON.stringify(request)}</div>;
-          })
-        ) : (
-          <div>You have no current requests</div>
-        )}
+        <table
+          id="accepted-tasks"
+          style={{
+            margin: "30px",
+          }}
+        >
+          <thead style={{ "font-weight": "bold" }}>
+            <tr>
+              <td>Type</td>
+              <td>Location</td>
+              <td>Items</td>
+              <td>Notes</td>
+              <td>Reward</td>
+            </tr>
+          </thead>
+          <tbody
+            style={{
+              margin: "30px",
+            }}
+          >
+            {state.requests.length ? (
+              state.requests.map((request, index) => (
+                <tr
+                  style={{
+                    backgroundColor: index % 2 === 0 ? "#EEEEEE" : "#EFEFEF",
+                  }}
+                >
+                  <td>{Object.keys(request._1_.type)[0]}</td>
+                  <td>
+                    <button
+                      onClick={() => makeMarkers([request._1_.requestLocation])}
+                    >
+                      Show on map
+                    </button>
+                  </td>
+                  <td>
+                    <ul>
+                      {(request._1_.items || []).map((item) => (
+                        <li>{item}</li>
+                      ))}
+                    </ul>
+                  </td>
+                  <td>{request._1_.note}</td>
+                  <td>{request._1_.reward} S</td>
+                </tr>
+              ))
+            ) : (
+              <tr colspan="10">You have no current requests</tr>
+            )}
+          </tbody>
+        </table>
       </div>
     </div>
   );

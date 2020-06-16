@@ -26,7 +26,6 @@ export const CreateRequest = ({ state, createRequest }) => {
         <div>Request type</div>
         <select
           id="request_type"
-          value={state.newRequest.requestType}
           onChange={(ev) =>
             (state.newRequest.requestType = encodeVariant(ev.target.value))
           }
@@ -37,19 +36,20 @@ export const CreateRequest = ({ state, createRequest }) => {
         <div>Note</div>
         <input
           id="note"
-          value={state.newRequest.note}
           onChange={(ev) => (state.newRequest.note = ev.target.value)}
         ></input>
         <div>Items</div>
         <div>
           <ul>
-            {new Array(8).fill(null).map((_, index) =>
-            <li>
-              <input
-                value={state.newRequest.items[{index}]}
-                onChange={(ev) => (state.newRequest.items[index] = ev.target.value)}
-              ></input>
-            </li>)}
+            {new Array(8).fill(null).map((_, index) => (
+              <li>
+                <input
+                  onChange={(ev) =>
+                    (state.newRequest.items[index] = ev.target.value)
+                  }
+                ></input>
+              </li>
+            ))}
           </ul>
         </div>
         <div>
