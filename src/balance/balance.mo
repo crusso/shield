@@ -63,11 +63,11 @@ actor {
                  A.find<Name, ShieldBalance>(book, dest, nameEq)) {
             case (?balance,?dest_balance) {
               if (balance >= amount) {
-                let (newBook1, _) =
+                let (book1, _) =
                 A.replace<Principal, ShieldBalance>(book, name, nameEq, ?(balance  - amount));
-                let (newBook2, _) =
-                A.replace<Principal, ShieldBalance>(book, dest, nameEq, ?(dest_balance  + amount));
-                book := newBook2;
+                let (book2, _) =
+                A.replace<Principal, ShieldBalance>(book1, dest, nameEq, ?(dest_balance  + amount));
+                book := book2;
               } else {
                 throw E.error("insufficient funds");
               };
