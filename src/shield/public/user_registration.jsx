@@ -66,19 +66,27 @@ export const UserRegistration = ({ state, user, registerUser }) => (
         min="0"
         step="10"
         placeholder="60"
-        value={user.age}
+        value="60"
         onChange={(ev) => (user.age = Number(ev.target.value))}
       ></input>
       <div>Disability</div>
       <div>
-        <input
-          type="radio"
-          id="disability-other"
-          name="disability"
-          value="other"
-          onChange={(ev) => (user.disability = [{ other: null }])}
-        ></input>
-        <label for="disability-other">Other</label>
+        {["hearing", "sight", "mobility", "other"].map((disability) => (
+          <div>
+            <input
+              type="radio"
+              id={"disability-" + disability}
+              name="disability"
+              value={disability}
+              onChange={(ev) => {
+                let variant = {};
+                variant[disability] = null;
+                user.disability = [variant];
+              }}
+            ></input>
+            <label for={"disability-" + disability}>{disability}</label>
+          </div>
+        ))}
       </div>
     </div>
     <div>{state.errorMessage}</div>
