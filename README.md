@@ -1,6 +1,8 @@
 # Shield
 
-Project Shield is a POC volunteering app, matching located helpers/volunteers with nearby vulnerable users requiring assistance (for shopping requests). Users have funds from which they reward helpers for completing requests. Users and helpers have associated balances of funds, denominated in `shield` tokens.
+Project Shield is a POC volunteering app, matching located helpers/volunteers with nearby vulnerable users requiring assistance (for shopping requests). Users have funds from which they reward helpers for completing requests. Users and helpers have associated balances of funds, denominated in `S` (shield) tokens.
+
+![Screenshot](images/shield.png)
 
 [Slides](https://docs.google.com/presentation/d/1-4phUn7TjWgTSQT18IDQ8Hkhw9qcF9wSl4bLMZXqdxA/edit?usp=sharing)
 
@@ -41,6 +43,8 @@ TODOs:
 * token exchange.
 * privacy-oriented design (we record way to much but that was the spec).
 * Escrow to avoid overspend by user (user can make more requests than he can afford)
+
+
 
 # Generic DFX project description
 
