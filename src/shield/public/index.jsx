@@ -17,6 +17,10 @@ import { toyRequest } from "./mock.jsx";
 window.shield = shield;
 window.balance = balance;
 
+const default_location =
+  { lat: 47.371653,
+    lng: 8.512296 };
+
 class App extends React.Component {
   constructor(props) {
     super(props);
@@ -26,7 +30,7 @@ class App extends React.Component {
         user: [],
         helper: [],
       },
-      location: { lat: null, lng: null },
+      location: default_location,
       errorMessage: "",
       nearbyHelpers: null,
       requests: null, // Requests posted or accepted by this user/helper.
@@ -145,7 +149,10 @@ class App extends React.Component {
         console.log({ location });
         // TODO: Handle user rejection
         const { latitude, longitude } = location.coords;
-        location = { lat: latitude, lng: longitude };
+        location = (latitude !== null && longitude !== null) ?
+	             { lat: latitude
+	             , lng: longitude }
+		   : default_location;
         this.state.me.user.forEach((user) => (user.location = location));
         this.state.me.helper.forEach((user) => (user.location = location));
         this.state.location = location;
