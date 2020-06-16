@@ -4,11 +4,42 @@ Project Shield is a POC volunteering app, matching helpers/volunteers with users
 
 [Screenshot](./images/shield.png)
 
-
 [Supporting materials](https://drive.google.com/drive/folders/1XYAEynOAmfndBrFJzErdAYPyOF3b_27t)
 
 [Video](https://drive.google.com/file/d/1Y2Vmm9DxZuv0Psp2bopxq7nPrEjJInMS/view?usp=sharing)
 
+# Requirments
+
+* DFX 0.5.7 (!)
+* react and other javascript detritus.
+
+# Guide to the code
+
+
+The dfx project is a multi-canister project with 2 main canisters and 20 identical, replicated agent canisters used to simulate additional human users/helpers making/servicing requests.
+
+* [Shield Actor](./src/shield/): Centralized mutable registry of users, helpers and requests. The former are authenticated by caller id (for better or worse). Implemented using three base `HashMaps`.
+
+* [Shield Front-end](./src/shield/public/index.jsx): react, multi-page (?) front-end displaying maps with pins for helpers and (nearby) requests.
+Appearance basic but fully functional, should be stylable via css (future work).
+
+* [Balance Actor](./src/shield/): central *bank* managing user accounts storing shield tokens. Authenticated by caller id (for better or worse).
+Endowed by shield canister, used both by users and helpers.  Account creation and transfers initiated soley by shield canister (the `trust` principal, for want of better name).
+
+* [User Actor](./src/user/) Generic user agent capable of impersonating a single shield user or shield helper. Used by test script [run.sh](run.sh) to prepoplute replica with small number of users and canisters.
+Forged to set up an artificial environment of users/helpers located around Zurich. Each agent canister registers itself with shield.
+Each user agent additionally makes a single request (for help purchasing some item).
+
+* [tokenomics](./src/tokenomics/) Exchange for converting balance canisters shield tokens to other token (ideally DFN). Sketched by resident economist but not yet used.
+
+TODOs:
+* rename user canister to more generic agent canister (serving role of shield user or helper).
+* user-specified rewards in UI (implemented, but not exposed, default to `1` shield token).
+* html input-validation
+* token exchange.
+* privacy-oriented design (we record way to much but that was the spec).
+
+# Generic DFX project description
 
 Welcome to your new shield project and to the internet computer development community. By default, creating a new project adds this README and some template files to your project directory. You can edit these template files to customize your project and to include your own code to speed up the development cycle.
 
@@ -141,5 +172,7 @@ crusso@crusso-Virtual-Machine:~/shield$ firefox http://localhost:8000/canisterId
 ./run.sh
 ```
 
-Runs a little test script that starts dfx, installs all canisters, and starts some user canisters.
+Runs a little test script that (re-)starts dfx, installs all canisters, and starts some user canisters.
+
+Open the shield front-end in a browser, and again in a private browser window(s), in order to register user or helpers with _different_ principals.
 
