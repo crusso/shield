@@ -49,7 +49,10 @@ class App extends React.Component {
       await this.getUserEnvironment();
       this.navigateTo(C.USER_DASHBOARD);
     });
-    me.helper.forEach((_) => this.navigateTo(C.HELPER_DASHBOARD));
+    me.helper.forEach(async (_) => {
+      await this.getHelperEnvironment();
+      this.navigateTo(C.HELPER_DASHBOARD);
+    });
   }
   blankUser = () => ({
     name: { first: null, last: null },
@@ -75,6 +78,13 @@ class App extends React.Component {
     await this.findHelpers();
     await this.getUserRequests();
   };
+  getHelperEnvironment = async () => {
+    await this.getHelperRequests();
+  };
+  getHelperRequests = async () => {
+    let requests = []; // How can I get a list of the tasks that a helper has accepted?
+    await this.setState({ ...this.state, requests });
+  };
   blankHelper = () => ({
     name: { first: null, last: null },
     radiusKm: null,
@@ -88,6 +98,7 @@ class App extends React.Component {
       const response = await shield.registerHelper(helper);
       console.log("registerHelper", response);
       this.setState({ ...this.state, me: { user: [], helper: [helper] } });
+      await this.getHelperEnvironment();
       this.navigateTo(C.HELPER_DASHBOARD);
     } catch (e) {
       this.setState({ ...this.state, errorMessage: e.message });
@@ -224,9 +235,7 @@ class App extends React.Component {
       );
     } else if (this.state.view === C.HELPER_DASHBOARD) {
       console.log("Rendering", this.state.view);
-      return (
-        <HelperDashboard setGlobalState={this.setState} state={this.state} />
-      );
+      return <HelperDashboard makeMap={this.makeMap} state={this.state} />;
     } else if (this.state.view === C.CREATE_REQUEST) {
       console.log("Rendering", this.state.view);
       return (
