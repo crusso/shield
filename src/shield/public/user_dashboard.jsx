@@ -71,7 +71,7 @@ export const UserDashboard = ({ navigateTo, state, makeMap }) => {
                     backgroundColor: index % 2 === 0 ? "#EEEEEE" : "#EFEFEF",
                   }}
                 >
-                  <td>{Object.keys(request._1_.type)[0]}</td>
+                  <td>{Object.keys(request._1_.requestType)[0]}</td>
                   <td>
                     <button
                       onClick={() => makeMarkers([request._1_.requestLocation])}
