@@ -223,7 +223,7 @@ class App extends React.Component {
       request.requestLocation = this.state.location;
       request.reward = 1; // Fixed reward as a matter of policy but that may change.
       await shield.postRequest(request);
-      this.state.requests.push(request);
+      this.state.requests.push({_1_: request});
       this.setState(this.state);
       this.navigateTo(C.USER_DASHBOARD);
     } catch (e) {
