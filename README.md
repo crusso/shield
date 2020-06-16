@@ -24,7 +24,7 @@ The dfx project is a [multi-canister project](dfx.json) with 2 main canisters an
 
 * [Shield canister](./src/shield/): Centralized mutable registry of users, helpers and requests. The former are authenticated by caller id (for better or worse). Implemented using three base `HashMaps`.
 
-* [Shield Front-end](./src/shield/public/): react, multi-page (?) front-end displaying maps with pins for helpers and (nearby) requests.
+* [Shield front-end](./src/shield/public/): react, multi-page (?) front-end displaying maps with pins for helpers and (nearby) requests.
 Appearance basic but fully functional, should be stylable via css (future work).
 
 * [Balance canister](./src/balance/): central *bank* managing user accounts storing shield tokens. Authenticated by caller id (for better or worse).
