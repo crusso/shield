@@ -33,8 +33,8 @@ class App extends React.Component {
       location: default_location,
       errorMessage: "",
       nearbyHelpers: null,
-      requests: null, // Requests posted or accepted by this user/helper.
-      open_requests: null, // Unclaimed requests.
+      requests: [], // Requests posted or accepted by this user/helper.
+      open_requests: [], // Unclaimed requests.
       balance: 0,
       newRequest: this.blankRequest(), // Stash partially completed requests so that the user doesn't have to re-enter details; does not survive the user doing a hard refresh.
     };
@@ -111,18 +111,29 @@ class App extends React.Component {
     this.setState({ ...this.state, balance });
   };
   getHelperRequests = async () => {
-    //let requests = []; // How can I get a list of the tasks that a helper has accepted?
-    let requests = Array(2)
-      .fill(null)
-      .map((_) => ({ _0_: `id${Math.random()}`, _1_: toyRequest() }));
+    let requests = await shield.helperRequests();
     await this.setState({ ...this.state, requests });
   };
   getOpenRequests = async () => {
-    //let open_requests = await shield.findRequests(); // Will this come back with the _1_: syntax?
-    let open_requests = Array(5)
-      .fill(null)
-      .map((_) => ({ _0_: "id534", _1_: toyRequest() }));
+    let open_requests = await shield.findRequests();
     await this.setState({ ...this.state, open_requests });
+  };
+  acceptRequest = async (request_id) => {
+    try {
+      let claim = await shield.acceptRequest(request_id);
+    } catch (e) {
+      console.log(e.message);
+    }
+    this.getOpenRequests();
+    this.getHelperRequests();
+  };
+  confirmRequest = async (request_id) => {
+    try {
+      let claim = await shield.confirmRequest(request_id);
+    } catch (e) {
+      console.log(e.message);
+    }
+    this.getUserRequests();
   };
   blankHelper = () => ({
     name: { first: null, last: null },
@@ -230,8 +241,8 @@ class App extends React.Component {
       request.requestLocation = this.state.location;
       request.reward = 1; // Fixed reward as a matter of policy but that may change.
       await shield.postRequest(request);
-      this.state.requests.push({ _1_: request });
-      this.setState(this.state);
+      this.getUserRequests();
+      this.setState({ ...this.state, newRequest: this.blankRequest() });
       this.navigateTo(C.USER_DASHBOARD);
     } catch (e) {
       let errorMessage = e.message;
@@ -270,6 +281,8 @@ class App extends React.Component {
           navigateTo={this.navigateTo}
           state={this.state}
           makeMap={this.makeMap}
+          makeMarkers={this.makeMarkers}
+          confirmRequest={this.confirmRequest}
         />
       );
     } else if (this.state.view === C.HELPER_REGISTRATION) {
@@ -302,7 +315,9 @@ class App extends React.Component {
       );
     } else if (this.state.view === C.FIND_REQUEST) {
       console.log("Rendering", this.state.view);
-      return <FindRequest state={this.state} />;
+      return (
+        <FindRequest state={this.state} acceptRequest={this.acceptRequest} />
+      );
     } else {
       console.log("Rendering", this.state.view, "as", "FrontPage");
       return <FrontPage navigateTo={this.navigateTo} />;

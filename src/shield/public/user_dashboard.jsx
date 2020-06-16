@@ -3,7 +3,13 @@ console.log("Loading user dashboard");
 import * as React from "react";
 import * as C from "./const.js";
 
-export const UserDashboard = ({ navigateTo, state, makeMap }) => {
+export const UserDashboard = ({
+  navigateTo,
+  state,
+  makeMap,
+  makeMarkers,
+  confirmRequest,
+}) => {
   console.log("Rendering nearby helpers", state.nearbyHelpers);
 
   after_load(() => {
@@ -32,7 +38,9 @@ export const UserDashboard = ({ navigateTo, state, makeMap }) => {
           <div>
             {(state.nearbyHelpers || []).length === 0
               ? "We are looking for helpers near you."
-              : `There are ${state.nearbyHelpers.length} helpers living near you.`}
+              : `There are ${
+                  (state.nearbyHelpers || []).length
+                } helpers living near you.`}
           </div>
         </div>
         <div id="mapid" style={{ height: "180px" }}></div>
@@ -57,6 +65,7 @@ export const UserDashboard = ({ navigateTo, state, makeMap }) => {
               <td>Items</td>
               <td>Notes</td>
               <td>Reward</td>
+              <td>Status</td>
             </tr>
           </thead>
           <tbody
@@ -71,23 +80,53 @@ export const UserDashboard = ({ navigateTo, state, makeMap }) => {
                     backgroundColor: index % 2 === 0 ? "#EEEEEE" : "#EFEFEF",
                   }}
                 >
-                  <td>{Object.keys(request._1_.requestType)[0]}</td>
+                  <td>
+                    {String(
+                      Object.keys(
+                        ["_1_", "info", "requestType"].reduce(
+                          (n, i) => n && n[i],
+                          request
+                        ) || {}
+                      )[0]
+                    )}
+                  </td>
                   <td>
                     <button
-                      onClick={() => makeMarkers([request._1_.requestLocation])}
+                      onClick={() =>
+                        makeMarkers([request._1_.info.requestLocation])
+                      }
                     >
                       Show on map
                     </button>
                   </td>
                   <td>
                     <ul>
-                      {(request._1_.items || []).map((item) => (
-                        <li>{item}</li>
+                      {request._1_.info.items.map((item) => (
+                        <li>{String(item)}</li>
                       ))}
                     </ul>
                   </td>
-                  <td>{request._1_.note}</td>
-                  <td>{request._1_.reward} S</td>
+                  <td>{String(request._1_.info.note)}</td>
+                  <td>
+                    {String(
+                      ["_1_", "info", "reward"].reduce(
+                        (n, i) => n && n[i],
+                        request
+                      )
+                    )}{" "}
+                    S
+                  </td>
+                  <td>
+                    {String(Object.keys(request._1_.status)[0])}
+                    {String(Object.keys(request._1_.status)[0]) ===
+                    "accepted" ? (
+                      <button onClick={() => confirmRequest(request._0_)}>
+                        Accept!
+                      </button>
+                    ) : (
+                      ""
+                    )}
+                  </td>
                 </tr>
               ))
             ) : (

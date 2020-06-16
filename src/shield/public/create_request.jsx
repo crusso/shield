@@ -33,11 +33,6 @@ export const CreateRequest = ({ state, createRequest }) => {
           <option value="grocery">Grocery</option>
           <option value="pharmacy">Pharmacy</option>
         </select>
-        <div>Note</div>
-        <input
-          id="note"
-          onChange={(ev) => (state.newRequest.note = ev.target.value)}
-        ></input>
         <div>Items</div>
         <div>
           <ul>
@@ -52,6 +47,11 @@ export const CreateRequest = ({ state, createRequest }) => {
             ))}
           </ul>
         </div>
+        <div>Note</div>
+        <input
+          id="note"
+          onChange={(ev) => (state.newRequest.note = ev.target.value)}
+        ></input>
         <div>
           <button onClick={() => createRequest(state.newRequest)}>
             Request!

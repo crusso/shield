@@ -61,7 +61,7 @@ export const HelperDashboard = ({
                   backgroundColor: index % 2 === 0 ? "#EEEEEE" : "#EFEFEF",
                 }}
               >
-                <td>{request._1_.type}</td>
+                <td>{String(Object.keys(request._1_.requestType)[0])}</td>
                 <td>
                   <button
                     onClick={() => makeMarkers([request._1_.requestLocation])}
@@ -72,12 +72,12 @@ export const HelperDashboard = ({
                 <td>
                   <ul>
                     {(request._1_.items || []).map((item) => (
-                      <li>{item}</li>
+                      <li>{String(item)}</li>
                     ))}
                   </ul>
                 </td>
-                <td>{request._1_.note}</td>
-                <td>{request._1_.reward} S</td>
+                <td>{String(request._1_.note)}</td>
+                <td>{String(request._1_.reward)} S</td>
               </tr>
             ))
           ) : (
