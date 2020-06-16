@@ -30,10 +30,11 @@ dfx build
 
 ./run.sh
 
-```bash
+```
+
 yields
 
-```
+```bash
 crusso@crusso-Virtual-Machine:~/shield$ ./run.sh
 on
 Jun 16 10:05:29.247 INFO replica is interrupted, shutting down
