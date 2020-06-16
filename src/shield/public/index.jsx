@@ -118,6 +118,14 @@ class App extends React.Component {
   confirmRequest = async (request_id) => {
     try {
       let claim = await shield.confirmRequest(request_id);
+      try {
+	var b = await balance.checkAccount();
+	b = Number(b[0]);
+	console.log({ balance: b });
+	this.setState({ ...this.state, balance: b });
+      } catch (e) {
+	console.error("Failed to get balance:", e.message);
+      };
     } catch (e) {
       console.log(e.message);
     }
