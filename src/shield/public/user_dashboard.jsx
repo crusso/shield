@@ -85,8 +85,7 @@ export const UserDashboard = ({ navigateTo, state, makeMap, makeMarkers }) => {
                   </td>
                   <td>
                     <ul>
-                        { request._1_.info.items.map(item => <li>{String(item)}</li>)
-                        }
+                        { request._1_.info.items.map(item => <li>{String(item)}</li>)}
                     </ul>
                   </td>
                   <td>{String(request._1_.info.note)}</td>

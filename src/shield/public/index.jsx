@@ -114,10 +114,7 @@ class App extends React.Component {
     await this.setState({ ...this.state, requests });
   };
   getOpenRequests = async () => {
-    //let open_requests = await shield.findRequests(); // Will this come back with the _1_: syntax?
-    let open_requests = Array(5)
-      .fill(null)
-      .map((_) => ({ _0_: "id534", _1_: toyRequest() }));
+    let open_requests = await shield.helperRequests();
     await this.setState({ ...this.state, open_requests });
   };
   blankHelper = () => ({
