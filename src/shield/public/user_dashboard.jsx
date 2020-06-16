@@ -3,13 +3,16 @@ console.log("Loading user dashboard");
 import * as React from "react";
 
 export const UserDashboard = ({ setGlobalState, state, makeMap }) => {
-  console.log("Rendering nearby helpers", state.nearbyHelpers.length);
+  console.log("Rendering nearby helpers", state.nearbyHelpers);
 
   after_load(() => {
-    makeMap(state.me.user[0].location);
+    makeMap(
+      state.me.user[0].location,
+      state.nearbyHelpers &&
+        state.nearbyHelpers.map((helper) => helper._1_.location)
+    );
   });
 
-  console.log("leaflet", leaflet);
   return (
     <div style={{ "font-size": "30px" }}>
       <div style={{ "background-color": "yellow" }}>
@@ -24,7 +27,11 @@ export const UserDashboard = ({ setGlobalState, state, makeMap }) => {
       >
         <div>
           <div>Hello {state.me.user[0].name.first}.</div>
-          <div>{state.nearbyHelpers.length===0?"We are looking for helpers near you.":`There are ${state.nearbyHelpers.length} helpers living near you.`}</div>
+          <div>
+            {(state.nearbyHelpers || []).length === 0
+              ? "We are looking for helpers near you."
+              : `There are ${state.nearbyHelpers.length} helpers living near you.`}
+          </div>
         </div>
         <div id="mapid" style={{ height: "180px" }}></div>
       </div>

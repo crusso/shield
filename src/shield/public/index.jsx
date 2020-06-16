@@ -20,10 +20,11 @@ class App extends React.Component {
       },
       location: { lat: null, lng: null },
       errorMessage: "",
-      nearbyHelpers: [],
+      nearbyHelpers: null,
       nearbyHelperMarkers: [],
       myMap: null,
     };
+    this.visuals = {};
     this.getLocation();
     this.routeUser();
   }
@@ -98,32 +99,59 @@ class App extends React.Component {
     });
   }
   findHelpers = async () => {
+    if (this.state.nearbyHelpers !== null) return;
     console.log("Finding helpers");
     let nearbyHelpers = await shield.findHelpers();
-    console.log({helpers: nearbyHelpers});
-    this.setState({...this.state, nearbyHelpers});
+    console.log({ helpers: nearbyHelpers });
+    this.setState({ ...this.state, nearbyHelpers });
   };
-  makeMap = async (location) => {
-    if (this.state.myMap !== null) return;
-    const {lat,lng} = location;
-    var myMap = L.map("mapid").setView([lat, lng], 13);
+  makeMap = async (location, markers) => {
+    if (this.visuals.myMap) {
+      console.log("Already have map:", this.visuals.myMap);
+    } else {
+      try {
+        const { lat, lng } = location;
+        var myMap = L.map("mapid").setView([lat, lng], 13);
 
-    // Fill in the map:
-    window.L.tileLayer(
-      "https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}",
-      {
-        attribution:
-          'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
-        maxZoom: 18,
-        id: "mapbox/streets-v11",
-        tileSize: 512,
-        zoomOffset: -1,
-        accessToken: mapbox_token,
+        // Fill in the map:
+        window.L.tileLayer(
+          "https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}",
+          {
+            attribution:
+              'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+            maxZoom: 18,
+            id: "mapbox/streets-v11",
+            tileSize: 512,
+            zoomOffset: -1,
+            accessToken: mapbox_token,
+          }
+        ).addTo(myMap);
+        this.visuals.myMap = myMap;
+      } catch (e) {
+        console.log("Failed to draw map:", e.message);
       }
-    ).addTo(myMap);
-    this.setState(...this.state, myMap);
-    await this.findHelpers();
-    state.nearbyHelperMarkers = state.nearbyHelpers.map(helper => L.marker([helper.location.lat, helper.location.lng]).addTo(mymap));
+    }
+    if (markers) this.makeMarkers(markers);
+  };
+  makeMarkers = (locations) => {
+    let myMap = this.visuals.myMap;
+    if (!myMap) return console.log("No map");
+    if (this.visuals.markers) {
+      this.visuals.markers.forEach((marker) => {
+        try {
+          myMap.removeLayer(marker);
+        } catch (e) {
+          console.log("Could not remove marker:", marker, e.message);
+        }
+      });
+    }
+    try {
+      this.visuals.markers = locations.map((location) =>
+        L.marker([location.lat, location.lng]).addTo(myMap)
+      );
+    } catch (e) {
+      console.error("Failed to add markers:", e.message);
+    }
   };
   render() {
     if (this.state.view === C.USER_REGISTRATION) {
@@ -142,7 +170,11 @@ class App extends React.Component {
       console.log("Rendering", this.state.view);
       this.findHelpers();
       return (
-        <UserDashboard setGlobalState={this.setState} state={this.state} makeMap={this.makeMap} />
+        <UserDashboard
+          setGlobalState={this.setState}
+          state={this.state}
+          makeMap={this.makeMap}
+        />
       );
     } else if (this.state.view === C.HELPER_REGISTRATION) {
       console.log("Rendering", this.state.view);
