@@ -2,7 +2,7 @@ console.log("Loading user dashboard");
 
 import * as React from "react";
 
-export const FindRequest = ({ state }) => {
+export const FindRequest = ({ state, acceptRequest }) => {
   return (
     <div style={{ "font-size": "30px" }}>
       <div style={{ "background-color": "yellow" }}>
@@ -21,6 +21,7 @@ export const FindRequest = ({ state }) => {
             <td>Items</td>
             <td>Notes</td>
             <td>Reward</td>
+            <td>Challenge</td>
           </tr>
         </thead>
         <tbody
@@ -51,6 +52,12 @@ export const FindRequest = ({ state }) => {
               </td>
               <td>{String(request._1_.note)}</td>
               <td>{String(request._1_.reward)} S</td>
+
+              <td>
+                <button onClick={() => acceptRequest(request._0_)}>
+                  Accept!
+                </button>
+              </td>
             </tr>
           ))}
         </tbody>

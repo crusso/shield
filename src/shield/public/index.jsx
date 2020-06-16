@@ -114,6 +114,23 @@ class App extends React.Component {
     let open_requests = await shield.findRequests();
     await this.setState({ ...this.state, open_requests });
   };
+  acceptRequest = async (request_id) => {
+    try {
+      let claim = await shield.acceptRequest(request_id);
+    } catch (e) {
+      console.log(e.message);
+    }
+    this.getOpenRequests();
+    this.getHelperRequests();
+  };
+  confirmRequest = async (request_id) => {
+    try {
+      let claim = await shield.confirmRequest(request_id);
+    } catch (e) {
+      console.log(e.message);
+    }
+    this.getUserRequests();
+  };
   blankHelper = () => ({
     name: { first: null, last: null },
     radiusKm: null,
@@ -258,6 +275,7 @@ class App extends React.Component {
           state={this.state}
           makeMap={this.makeMap}
           makeMarkers={this.makeMarkers}
+          confirmRequest={this.confirmRequest}
         />
       );
     } else if (this.state.view === C.HELPER_REGISTRATION) {
@@ -290,7 +308,9 @@ class App extends React.Component {
       );
     } else if (this.state.view === C.FIND_REQUEST) {
       console.log("Rendering", this.state.view);
-      return <FindRequest state={this.state} />;
+      return (
+        <FindRequest state={this.state} acceptRequest={this.acceptRequest} />
+      );
     } else {
       console.log("Rendering", this.state.view, "as", "FrontPage");
       return <FrontPage navigateTo={this.navigateTo} />;

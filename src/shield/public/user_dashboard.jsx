@@ -3,7 +3,13 @@ console.log("Loading user dashboard");
 import * as React from "react";
 import * as C from "./const.js";
 
-export const UserDashboard = ({ navigateTo, state, makeMap, makeMarkers }) => {
+export const UserDashboard = ({
+  navigateTo,
+  state,
+  makeMap,
+  makeMarkers,
+  confirmRequest,
+}) => {
   console.log("Rendering nearby helpers", state.nearbyHelpers);
 
   after_load(() => {
@@ -110,7 +116,17 @@ export const UserDashboard = ({ navigateTo, state, makeMap, makeMarkers }) => {
                     )}{" "}
                     S
                   </td>
-                  <td>{String(Object.keys(request._1_.status)[0])}</td>
+                  <td>
+                    {String(Object.keys(request._1_.status)[0])}
+                    {String(Object.keys(request._1_.status)[0]) ===
+                    "accepted" ? (
+                      <button onClick={() => confirmRequest(request._0_)}>
+                        Accept!
+                      </button>
+                    ) : (
+                      ""
+                    )}
+                  </td>
                 </tr>
               ))
             ) : (
