@@ -32,7 +32,7 @@ class App extends React.Component {
       requests: null, // Requests posted or accepted by this user/helper.
       open_requests: null, // Unclaimed requests.
       balance: 0,
-      newRequest: this.blankRequest(),
+      newRequest: this.blankRequest(), // Stash partially completed requests so that the user doesn't have to re-enter details; does not survive the user doing a hard refresh.
     };
     this.visuals = {};
     this.getLocation();
@@ -72,7 +72,7 @@ class App extends React.Component {
   registerUser = async (user) => {
     this.state.errorMessage = "";
     try {
-      user.location = this.state.me.user[0].location;
+      user.location = this.state.location;
       const response = await shield.registerUser(user);
       console.log("registerUser", response);
       this.setState({ ...this.state, me: { user: [user], helper: [] } });
@@ -220,7 +220,8 @@ class App extends React.Component {
     try {
       console.log("Creating request:", request);
       this.state.errorMessage = "";
-      request.location = this.state.location;
+      request.requestLocation = this.state.location;
+      request.reward = 1; // Fixed reward as a matter of policy but that may change.
       await shield.postRequest(request);
       this.state.requests.push(request);
       this.setState(this.state);
