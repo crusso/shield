@@ -43,14 +43,18 @@ export const UserDashboard = ({ navigateTo, state, makeMap }) => {
             New Request!
           </button>
         </div>
-        {state.requests.map((request) => {
-          return <div>{JSON.stringify(request)}</div>;
-        })}
+        {state.requests.length ? (
+          state.requests.map((request) => {
+            return <div>{JSON.stringify(request)}</div>;
+          })
+        ) : (
+          <div>You have no current requests</div>
+        )}
       </div>
     </div>
   );
 };
 
 function after_load(delayed_action) {
-  setTimeout(delayed_action, 300); // horrible hack
+  setTimeout(delayed_action, 200); // horrible hack
 }
