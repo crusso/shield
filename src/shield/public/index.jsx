@@ -107,14 +107,11 @@ class App extends React.Component {
     this.setState({ ...this.state, balance });
   };
   getHelperRequests = async () => {
-    //let requests = []; // How can I get a list of the tasks that a helper has accepted?
-    let requests = Array(2)
-      .fill(null)
-      .map((_) => ({ _0_: `id${Math.random()}`, _1_: toyRequest() }));
+    let requests = await shield.helperRequests();
     await this.setState({ ...this.state, requests });
   };
   getOpenRequests = async () => {
-    let open_requests = await shield.helperRequests();
+    let open_requests = await shield.findRequests();
     await this.setState({ ...this.state, open_requests });
   };
   blankHelper = () => ({

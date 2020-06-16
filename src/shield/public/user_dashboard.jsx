@@ -59,6 +59,7 @@ export const UserDashboard = ({ navigateTo, state, makeMap, makeMarkers }) => {
               <td>Items</td>
               <td>Notes</td>
               <td>Reward</td>
+              <td>Status</td>
             </tr>
           </thead>
           <tbody
@@ -90,6 +91,7 @@ export const UserDashboard = ({ navigateTo, state, makeMap, makeMarkers }) => {
                   </td>
                   <td>{String(request._1_.info.note)}</td>
                   <td>{String(["_1_", "info", "reward"].reduce((n,i) => n&&n[i], request))} S</td>
+                  <td>{String(Object.keys(request._1_.status)[0])} S</td>
                 </tr>
               ))
             ) : (
