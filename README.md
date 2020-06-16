@@ -38,6 +38,7 @@ TODOs:
 * html input-validation
 * token exchange.
 * privacy-oriented design (we record way to much but that was the spec).
+* Escrow to avoid overspend by user (user can make more requests than he can afford)
 
 # Generic DFX project description
 
