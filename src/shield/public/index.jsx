@@ -6,6 +6,7 @@ import { UserDashboard } from "./user_dashboard.jsx";
 import { HelperRegistration } from "./helper_registration.jsx";
 import { HelperDashboard } from "./helper_dashboard.jsx";
 import { FrontPage } from "./front_page.jsx";
+import { CreateRequest } from "./create_request.jsx";
 import * as C from "./const.js";
 import { leaflet, mapbox_token } from "./lib/leaflet-src.js";
 
@@ -23,6 +24,7 @@ class App extends React.Component {
       nearbyHelpers: null,
       nearbyHelperMarkers: [],
       myMap: null,
+      requests: null,
     };
     this.visuals = {};
     this.getLocation();
@@ -43,7 +45,10 @@ class App extends React.Component {
     const me = await shield.whoAmIAndHowDidIGetHere();
     console.log({ me });
     this.setState({ ...this.state, me });
-    me.user.forEach((_) => this.navigateTo(C.USER_DASHBOARD));
+    me.user.forEach(async (_) => {
+      await this.getUserEnvironment();
+      this.navigateTo(C.USER_DASHBOARD);
+    });
     me.helper.forEach((_) => this.navigateTo(C.HELPER_DASHBOARD));
   }
   blankUser = () => ({
@@ -60,10 +65,15 @@ class App extends React.Component {
       const response = await shield.registerUser(user);
       console.log("registerUser", response);
       this.setState({ ...this.state, me: { user: [user], helper: [] } });
+      await this.getUserEnvironment();
       this.navigateTo(C.USER_DASHBOARD);
     } catch (e) {
       this.setState({ ...this.state, errorMessage: e.message });
     }
+  };
+  getUserEnvironment = async () => {
+    await this.findHelpers();
+    await this.getUserRequests();
   };
   blankHelper = () => ({
     name: { first: null, last: null },
@@ -153,6 +163,29 @@ class App extends React.Component {
       console.error("Failed to add markers:", e.message);
     }
   };
+  createRequest = async (request) => {
+    try {
+      console.log("Creating request:", request);
+      this.state.errorMessage = "";
+      await shield.postRequest(request);
+      this.state.requests.push(request);
+      this.setState(this.state);
+      this.navigateTo(C.USER_DASHBOARD);
+    } catch (e) {
+      let errorMessage = e.message;
+      console.error("Failed to create request:", errorMessage);
+      this.setState({ ...this.state, errorMessage });
+    }
+  };
+  getUserRequests = async () => {
+    try {
+      let requests = await shield.userRequests();
+      console.log({ requests });
+      this.setState({ ...this.state, requests });
+    } catch (e) {
+      console.error("Failed to get user requests:", e.message);
+    }
+  };
   render() {
     if (this.state.view === C.USER_REGISTRATION) {
       let user = this.state.me.user[0]
@@ -171,7 +204,7 @@ class App extends React.Component {
       this.findHelpers();
       return (
         <UserDashboard
-          setGlobalState={this.setState}
+          navigateTo={this.navigateTo}
           state={this.state}
           makeMap={this.makeMap}
         />
@@ -193,6 +226,11 @@ class App extends React.Component {
       console.log("Rendering", this.state.view);
       return (
         <HelperDashboard setGlobalState={this.setState} state={this.state} />
+      );
+    } else if (this.state.view === C.CREATE_REQUEST) {
+      console.log("Rendering", this.state.view);
+      return (
+        <CreateRequest createRequest={this.createRequest} state={this.state} />
       );
     } else {
       console.log("Rendering", this.state.view, "as", "FrontPage");

@@ -1,8 +1,9 @@
 console.log("Loading user dashboard");
 
 import * as React from "react";
+import * as C from "./const.js";
 
-export const UserDashboard = ({ setGlobalState, state, makeMap }) => {
+export const UserDashboard = ({ navigateTo, state, makeMap }) => {
   console.log("Rendering nearby helpers", state.nearbyHelpers);
 
   after_load(() => {
@@ -35,11 +36,21 @@ export const UserDashboard = ({ setGlobalState, state, makeMap }) => {
         </div>
         <div id="mapid" style={{ height: "180px" }}></div>
       </div>
-      <div></div>
+      <div>
+        <div></div>
+        <div>
+          <button onClick={() => navigateTo(C.CREATE_REQUEST)}>
+            New Request!
+          </button>
+        </div>
+        {state.requests.map((request) => {
+          return <div>{JSON.stringify(request)}</div>;
+        })}
+      </div>
     </div>
   );
 };
 
 function after_load(delayed_action) {
-  setTimeout(delayed_action, 200); // horrible hack
+  setTimeout(delayed_action, 300); // horrible hack
 }
