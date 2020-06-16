@@ -7,14 +7,16 @@ import { HelperRegistration } from "./helper_registration.jsx";
 import { HelperDashboard } from "./helper_dashboard.jsx";
 import { FrontPage } from "./front_page.jsx";
 import { CreateRequest } from "./create_request.jsx";
+import { FindRequest } from "./find_request.jsx";
 import * as C from "./const.js";
 import { leaflet, mapbox_token } from "./lib/leaflet-src.js";
+import { toyRequest } from "./mock.jsx";
 
 class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      view: "",
+      view: "", // Which page to display
       me: {
         user: [],
         helper: [],
@@ -23,8 +25,8 @@ class App extends React.Component {
       errorMessage: "",
       nearbyHelpers: null,
       nearbyHelperMarkers: [],
-      myMap: null,
-      requests: null,
+      requests: null,      // Requests posted or accepted by this user/helper.
+      open_requests: null, // Unclaimed requests.
     };
     this.visuals = {};
     this.getLocation();
@@ -80,10 +82,17 @@ class App extends React.Component {
   };
   getHelperEnvironment = async () => {
     await this.getHelperRequests();
+    await this.getOpenRequests();
   };
   getHelperRequests = async () => {
-    let requests = []; // How can I get a list of the tasks that a helper has accepted?
+    //let requests = []; // How can I get a list of the tasks that a helper has accepted?
+    let requests = Array(2).fill(null).map(_ => ({_0_:`id${Math.random()}`, _1_: toyRequest()}));
     await this.setState({ ...this.state, requests });
+  };
+  getOpenRequests = async () => {
+    //let open_requests = await shield.findRequests(); // Will this come back with the _1_: syntax?
+    let open_requests = Array(5).fill(null).map(_ => ({_0_:"id534", _1_: toyRequest()}));
+    await this.setState({ ...this.state, open_requests });
   };
   blankHelper = () => ({
     name: { first: null, last: null },
@@ -240,6 +249,11 @@ class App extends React.Component {
       console.log("Rendering", this.state.view);
       return (
         <CreateRequest createRequest={this.createRequest} state={this.state} />
+      );
+    } else if (this.state.view === C.FIND_REQUEST) {
+      console.log("Rendering", this.state.view);
+      return (
+        <FindRequest state={this.state} />
       );
     } else {
       console.log("Rendering", this.state.view, "as", "FrontPage");

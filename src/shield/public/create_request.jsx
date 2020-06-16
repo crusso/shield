@@ -1,16 +1,7 @@
 console.log("Loading user dashboard");
 
 import * as React from "react";
-
-function toyRequest() {
-  return {
-    requestType: [{ grocery: "yes!" }],
-    requestLocation: { lat: 0, lng: 0 }, // TODO: Location other than user
-    note: "Please choose green bananas",
-    items: ["bananas", "latex gloves"],
-    reward: 9,
-  };
-}
+import { toyRequest } from "./mock.jsx";
 
 export const CreateRequest = ({ state, createRequest }) => {
   return (
