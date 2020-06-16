@@ -8,8 +8,8 @@ sed -e 's|ic:|http://localhost:8000/candid?canisterId=ic:|g' tmp.txt
 echo "frontend UIs"
 sed -e 's|ic:|http://localhost:8000/?canisterId=ic:|g' tmp.txt
 
-dfx canister call --async user start '(0)' 
-dfx canister call --async user-1 start '(1)'
+# dfx canister call --async user start '(0)' 
+# dfx canister call --async user-1 start '(1)'
 # dfx canister call --async user-2 start '(2)'
 # dfx canister call --async user-3 start '(3)'
 # dfx canister call --async user-4 start '(4)'
@@ -20,8 +20,8 @@ dfx canister call --async user-1 start '(1)'
 # dfx canister call --async user-9 start '(9)'
 
 
-dfx canister call --async helper startHelper '(0)'
-dfx canister call --async helper-1 startHelper '(1)'
+# dfx canister call --async helper startHelper '(0)'
+# dfx canister call --async helper-1 startHelper '(1)'
 # dfx canister call --async helper-2 startHelper '(2)'
 # dfx canister call --async helper-3 startHelper '(3)'
 # dfx canister call --async helper-4 startHelper '(4)'
