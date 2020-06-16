@@ -175,7 +175,7 @@ crusso@crusso-Virtual-Machine:~/shield$ firefox http://localhost:8000/canisterId
 ./run.sh
 ```
 
-Runs a little test script that (re-)starts dfx, installs all canisters, and starts some user canisters.
+Runs a little test script that (re-)starts dfx, installs all canisters, and starts some agent canisters (10 distinct users and 10 distinct helpers).
 
-Open the shield front-end in a browser, and again in private browser window(s), in order to register user or helpers with _different_ principals.
+Open the shield front-end in a browser, and again in private browser window(s), in order to register users or helpers with _different_ principals.
 
