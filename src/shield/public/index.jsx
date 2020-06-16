@@ -47,7 +47,7 @@ class App extends React.Component {
     const me = await shield.whoAmIAndHowDidIGetHere();
     this.setState({ ...this.state, me });
     me.user.forEach(async (_) => {
-      await this.getUserEnvironment();
+      this.getUserEnvironment();
       this.navigateTo(C.USER_DASHBOARD);
     });
     me.helper.forEach(async (_) => {
@@ -68,7 +68,7 @@ class App extends React.Component {
       user.location = this.state.location;
       const response = await shield.registerUser(user);
       this.setState({ ...this.state, me: { user: [user], helper: [] } });
-      await this.getUserEnvironment();
+      this.getUserEnvironment();
       this.navigateTo(C.USER_DASHBOARD);
     } catch (e) {
       this.setState({ ...this.state, errorMessage: e.message });
