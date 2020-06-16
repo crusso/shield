@@ -21,7 +21,7 @@ export const FindRequest = ({ state }) => {
             return <div>{JSON.stringify(request)}</div>;
           })
         ) : (
-          <div>No known help needed in your area.  Relax. :-)</div>
+          <div>No known help needed in your area. Relax. :-)</div>
         )}
       </div>
       <div>{state.errorMessage}</div>

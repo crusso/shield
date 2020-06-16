@@ -24,8 +24,7 @@ class App extends React.Component {
       location: { lat: null, lng: null },
       errorMessage: "",
       nearbyHelpers: null,
-      nearbyHelperMarkers: [],
-      requests: null,      // Requests posted or accepted by this user/helper.
+      requests: null, // Requests posted or accepted by this user/helper.
       open_requests: null, // Unclaimed requests.
     };
     this.visuals = {};
@@ -86,12 +85,16 @@ class App extends React.Component {
   };
   getHelperRequests = async () => {
     //let requests = []; // How can I get a list of the tasks that a helper has accepted?
-    let requests = Array(2).fill(null).map(_ => ({_0_:`id${Math.random()}`, _1_: toyRequest()}));
+    let requests = Array(2)
+      .fill(null)
+      .map((_) => ({ _0_: `id${Math.random()}`, _1_: toyRequest() }));
     await this.setState({ ...this.state, requests });
   };
   getOpenRequests = async () => {
     //let open_requests = await shield.findRequests(); // Will this come back with the _1_: syntax?
-    let open_requests = Array(5).fill(null).map(_ => ({_0_:"id534", _1_: toyRequest()}));
+    let open_requests = Array(5)
+      .fill(null)
+      .map((_) => ({ _0_: "id534", _1_: toyRequest() }));
     await this.setState({ ...this.state, open_requests });
   };
   blankHelper = () => ({
@@ -207,6 +210,7 @@ class App extends React.Component {
     }
   };
   render() {
+    console.log({ state: this.state });
     if (this.state.view === C.USER_REGISTRATION) {
       let user = this.state.me.user[0]
         ? { ...this.state.me.user[0] }
@@ -244,7 +248,13 @@ class App extends React.Component {
       );
     } else if (this.state.view === C.HELPER_DASHBOARD) {
       console.log("Rendering", this.state.view);
-      return <HelperDashboard makeMap={this.makeMap} state={this.state} />;
+      return (
+        <HelperDashboard
+          makeMap={this.makeMap}
+          makeMarkers={this.makeMarkers}
+          state={this.state}
+        />
+      );
     } else if (this.state.view === C.CREATE_REQUEST) {
       console.log("Rendering", this.state.view);
       return (
@@ -252,9 +262,7 @@ class App extends React.Component {
       );
     } else if (this.state.view === C.FIND_REQUEST) {
       console.log("Rendering", this.state.view);
-      return (
-        <FindRequest state={this.state} />
-      );
+      return <FindRequest state={this.state} />;
     } else {
       console.log("Rendering", this.state.view, "as", "FrontPage");
       return <FrontPage navigateTo={this.navigateTo} />;
