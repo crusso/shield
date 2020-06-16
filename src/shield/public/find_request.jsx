@@ -1,8 +1,7 @@
-console.log("Loading user dashboard");
-
+import * as C from "./const.js";
 import * as React from "react";
 
-export const FindRequest = ({ state, acceptRequest }) => {
+export const FindRequest = ({ state, acceptRequest, navigateTo }) => {
   return (
     <div style={{ "font-size": "30px" }}>
       <div style={{ "background-color": "yellow" }}>
@@ -62,6 +61,7 @@ export const FindRequest = ({ state, acceptRequest }) => {
           ))}
         </tbody>
       </table>
+      <button onClick={() => navigateTo(C.HELPER_DASHBOARD)}>BACK</button>
       <div>{state.errorMessage}</div>
     </div>
   );

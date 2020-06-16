@@ -1,5 +1,3 @@
-console.log("Loading user dashboard");
-
 import * as React from "react";
 import * as C from "./const.js";
 
@@ -10,8 +8,6 @@ export const UserDashboard = ({
   makeMarkers,
   confirmRequest,
 }) => {
-  console.log("Rendering nearby helpers", state.nearbyHelpers);
-
   after_load(() => {
     makeMap(
       state.me.user[0].location,
@@ -117,14 +113,13 @@ export const UserDashboard = ({
                     S
                   </td>
                   <td>
-                    {String(Object.keys(request._1_.status)[0])}
                     {String(Object.keys(request._1_.status)[0]) ===
                     "accepted" ? (
                       <button onClick={() => confirmRequest(request._0_)}>
-                        Accept!
+                        Confirm completion
                       </button>
                     ) : (
-                      ""
+                      String(Object.keys(request._1_.status)[0])
                     )}
                   </td>
                 </tr>

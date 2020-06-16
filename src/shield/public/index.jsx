@@ -11,15 +11,12 @@ import { CreateRequest } from "./create_request.jsx";
 import { FindRequest } from "./find_request.jsx";
 import * as C from "./const.js";
 import { leaflet, mapbox_token } from "./lib/leaflet-src.js";
-import { toyRequest } from "./mock.jsx";
 
 // TODO: Remove:
 window.shield = shield;
 window.balance = balance;
 
-const default_location =
-  { lat: 47.371653,
-    lng: 8.512296 };
+const default_location = { lat: 47.371653, lng: 8.512296 };
 
 class App extends React.Component {
   constructor(props) {
@@ -42,20 +39,11 @@ class App extends React.Component {
     this.getLocation();
     this.routeUser();
   }
-
-  setGlobalState = (state) => {
-    console.log("Set", state);
-    this.setState(state);
-    console.log("Set state to", state);
-  };
   navigateTo = (view) => {
-    console.log("Set", view);
     this.setState({ ...this.state, view });
-    console.log("Set view to", view);
   };
   async routeUser() {
     const me = await shield.whoAmIAndHowDidIGetHere();
-    console.log({ me });
     this.setState({ ...this.state, me });
     me.user.forEach(async (_) => {
       await this.getUserEnvironment();
@@ -78,7 +66,6 @@ class App extends React.Component {
     try {
       user.location = this.state.location;
       const response = await shield.registerUser(user);
-      console.log("registerUser", response);
       this.setState({ ...this.state, me: { user: [user], helper: [] } });
       await this.getUserEnvironment();
       this.navigateTo(C.USER_DASHBOARD);
@@ -103,10 +90,6 @@ class App extends React.Component {
     ]);
   };
   getBalance = async () => {
-    balance
-      .checkAccount()
-      .then((res) => console.log("Balance:", res))
-      .catch(console.error);
     let balance = await balance.checkAccount();
     this.setState({ ...this.state, balance });
   };
@@ -146,7 +129,6 @@ class App extends React.Component {
     try {
       helper.location = this.state.location;
       const response = await shield.registerHelper(helper);
-      console.log("registerHelper", response);
       this.setState({ ...this.state, me: { user: [], helper: [helper] } });
       await this.getHelperEnvironment();
       this.navigateTo(C.HELPER_DASHBOARD);
@@ -160,23 +142,20 @@ class App extends React.Component {
         console.log({ location });
         // TODO: Handle user rejection
         const { latitude, longitude } = location.coords;
-        location = (latitude !== null && longitude !== null) ?
-	             { lat: latitude
-	             , lng: longitude }
-		   : default_location;
+        location =
+          latitude !== null && longitude !== null
+            ? { lat: latitude, lng: longitude }
+            : default_location;
         this.state.me.user.forEach((user) => (user.location = location));
         this.state.me.helper.forEach((user) => (user.location = location));
         this.state.location = location;
-        console.log(this.state.me);
         yay();
       });
     });
   }
   findHelpers = async () => {
     if (this.state.nearbyHelpers !== null) return;
-    console.log("Finding helpers");
     let nearbyHelpers = await shield.findHelpers();
-    console.log({ helpers: nearbyHelpers });
     this.setState({ ...this.state, nearbyHelpers });
   };
   makeMap = async (location, markers) => {
@@ -236,7 +215,6 @@ class App extends React.Component {
   });
   createRequest = async (request) => {
     try {
-      console.log("Creating request:", request);
       this.state.errorMessage = "";
       request.requestLocation = this.state.location;
       request.reward = 1; // Fixed reward as a matter of policy but that may change.
@@ -253,7 +231,6 @@ class App extends React.Component {
   getUserRequests = async () => {
     try {
       let requests = await shield.userRequests();
-      console.log({ requests });
       this.setState({ ...this.state, requests });
     } catch (e) {
       console.error("Failed to get user requests:", e.message);
@@ -265,7 +242,6 @@ class App extends React.Component {
       let user = this.state.me.user[0]
         ? { ...this.state.me.user[0] }
         : this.blankUser();
-      console.log("Rendering", this.state.view, { user });
       return (
         <UserRegistration
           state={this.state}
@@ -274,7 +250,6 @@ class App extends React.Component {
         />
       );
     } else if (this.state.view === C.USER_DASHBOARD) {
-      console.log("Rendering", this.state.view);
       this.findHelpers();
       return (
         <UserDashboard
@@ -286,11 +261,9 @@ class App extends React.Component {
         />
       );
     } else if (this.state.view === C.HELPER_REGISTRATION) {
-      console.log("Rendering", this.state.view);
       let helper = this.state.me.helper[0]
         ? { ...this.state.me.helper[0] }
         : this.blankHelper();
-      console.log(helper);
       return (
         <HelperRegistration
           state={this.state}
@@ -299,7 +272,6 @@ class App extends React.Component {
         />
       );
     } else if (this.state.view === C.HELPER_DASHBOARD) {
-      console.log("Rendering", this.state.view);
       return (
         <HelperDashboard
           makeMap={this.makeMap}
@@ -309,17 +281,14 @@ class App extends React.Component {
         />
       );
     } else if (this.state.view === C.CREATE_REQUEST) {
-      console.log("Rendering", this.state.view);
       return (
         <CreateRequest createRequest={this.createRequest} state={this.state} />
       );
     } else if (this.state.view === C.FIND_REQUEST) {
-      console.log("Rendering", this.state.view);
       return (
         <FindRequest state={this.state} acceptRequest={this.acceptRequest} />
       );
     } else {
-      console.log("Rendering", this.state.view, "as", "FrontPage");
       return <FrontPage navigateTo={this.navigateTo} />;
     }
   }

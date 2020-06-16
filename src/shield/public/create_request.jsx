@@ -1,7 +1,4 @@
-console.log("Loading user dashboard");
-
 import * as React from "react";
-import { toyRequest } from "./mock.jsx";
 
 function encodeVariant(name) {
   let ans = {};
