@@ -252,6 +252,7 @@ class App extends React.Component {
         <HelperDashboard
           makeMap={this.makeMap}
           makeMarkers={this.makeMarkers}
+          navigateTo={this.navigateTo}
           state={this.state}
         />
       );

@@ -1,8 +1,12 @@
-console.log("Loading user dashboard");
-
+import * as C from "./const.js";
 import * as React from "react";
 
-export const HelperDashboard = ({ makeMap, makeMarkers, state }) => {
+export const HelperDashboard = ({
+  makeMap,
+  makeMarkers,
+  navigateTo,
+  state,
+}) => {
   // Show a map with the helper's position
   after_load(() => {
     makeMap(state.me.helper[0].location, [state.me.helper[0].location]);
@@ -41,6 +45,7 @@ export const HelperDashboard = ({ makeMap, makeMarkers, state }) => {
             <td>Location</td>
             <td>Items</td>
             <td>Notes</td>
+            <td>Reward</td>
           </tr>
         </thead>
         <tbody
@@ -49,9 +54,11 @@ export const HelperDashboard = ({ makeMap, makeMarkers, state }) => {
           }}
         >
           {state.requests.length ? (
-            state.requests.map((request) => (
-              <tr>
-                <td>{request.type}</td>
+            state.requests.map((request, index) => (
+              <tr
+                style={{ backgroundColor: index % 2 === 0 ? "#EEEEEE" : "#EFEFEF" }}
+              >
+                <td>{request._1_.type}</td>
                 <td>
                   <button
                     onClick={() => makeMarkers([request._1_.requestLocation])}
@@ -67,13 +74,15 @@ export const HelperDashboard = ({ makeMap, makeMarkers, state }) => {
                   </ul>
                 </td>
                 <td>{request._1_.note}</td>
+                <td>{request._1_.reward} S</td>
               </tr>
             ))
           ) : (
-            <div>You have accepted no requests</div>
+            <tr colspan="10">You have accepted no requests</tr>
           )}
         </tbody>
       </table>
+      <button onClick={() => navigateTo(C.FIND_REQUEST)}>Find requests</button>
     </div>
   );
 };
