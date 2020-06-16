@@ -1,4 +1,5 @@
 import shield from "ic:canisters/shield";
+import balance from "ic:canisters/balance";
 import * as React from "react";
 import { render } from "react-dom";
 import { UserRegistration } from "./user_registration.jsx";
@@ -11,6 +12,10 @@ import { FindRequest } from "./find_request.jsx";
 import * as C from "./const.js";
 import { leaflet, mapbox_token } from "./lib/leaflet-src.js";
 import { toyRequest } from "./mock.jsx";
+
+// TODO: Remove:
+window.shield = shield;
+window.balance = balance;
 
 class App extends React.Component {
   constructor(props) {
@@ -26,6 +31,7 @@ class App extends React.Component {
       nearbyHelpers: null,
       requests: null, // Requests posted or accepted by this user/helper.
       open_requests: null, // Unclaimed requests.
+      balance: 0,
     };
     this.visuals = {};
     this.getLocation();
@@ -78,11 +84,16 @@ class App extends React.Component {
   getUserEnvironment = async () => {
     await this.findHelpers();
     await this.getUserRequests();
+    await this.getBalance().catch(e => console.error("Failed to get balance", e.message));
   };
   getHelperEnvironment = async () => {
-    await this.getHelperRequests();
-    await this.getOpenRequests();
+    await Promise.all([this.getHelperRequests(), this.getOpenRequests(), this.getBalance().catch(e => console.error("Failed to get balance:", e.message))]);
   };
+  getBalance = async () => {
+    balance.checkAccount().then(res => console.log("Balance:", res)).catch(console.error);
+    let balance = await balance.checkAccount();
+    this.setState({...this.state, balance});
+  }
   getHelperRequests = async () => {
     //let requests = []; // How can I get a list of the tasks that a helper has accepted?
     let requests = Array(2)
