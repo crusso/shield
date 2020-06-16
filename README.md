@@ -1,8 +1,31 @@
 # Replica Crash
 
-This branch reproduces a crash of the replica, installing ca. 20 canister but only running a handfull of canisters.
+This branch reproduces a bad crash of the replica, after installing
+~20 canister small canisters but only sending messages to ~5 canisters.
+
+Uses dfx 0.5.7 (may port repro to 0.5.8 tomorrow).
+
+dfx is scripted using file [./run.sh](./run.sh)
+
+The `user`/`helper` canisters poll the `shield` canister so generate a fair amount of messages, but I don't think the replica should crash so gracelessly with:
 
 ```bash
+thread 'executor/ThreadId(9)/thread' panicked at '> instance 0x7eff17fd6000 had fatal error: fault FATAL TrapCode::UNKNOWN code at address 0x56367af264be (symbol replica:_ZN23lucet_runtime_internals5vmctx19instance_from_vmctx17hc6a1115e36fcb781E) (not inside module code) triggered by Segmentation fault:  accessed memory at 0x7f0117fd7fb8 (inside heap guard)', /sources/lucet-runtime-internals-0.6.1/src/instance.rs:1196:5
+  Replica exited with signal: 6
+⠁ Terminating...
+An error occured:
+RuntimeError(
+    Custom {
+        kind: Other,
+        error: "Failed to stop server: ()",
+    },
+)
+```
+# Repro steps
+
+```bash
+npm install  # or whatever is required
+
 dfx build
 
 ./run.sh
