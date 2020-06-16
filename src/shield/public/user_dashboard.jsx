@@ -3,7 +3,7 @@ console.log("Loading user dashboard");
 import * as React from "react";
 import * as C from "./const.js";
 
-export const UserDashboard = ({ navigateTo, state, makeMap }) => {
+export const UserDashboard = ({ navigateTo, state, makeMap, makeMarkers }) => {
   console.log("Rendering nearby helpers", state.nearbyHelpers);
 
   after_load(() => {
@@ -73,7 +73,7 @@ export const UserDashboard = ({ navigateTo, state, makeMap }) => {
                     backgroundColor: index % 2 === 0 ? "#EEEEEE" : "#EFEFEF",
                   }}
                 >
-                  <td>{JSON.stringify(request)}</td>
+                  <td>{String(Object.keys(["_1_", "info", "requestType"].reduce((n,i) => n&&n[i], request)||{})[0])}</td>
                   <td>
                     <button
                       onClick={() =>
@@ -84,7 +84,10 @@ export const UserDashboard = ({ navigateTo, state, makeMap }) => {
                     </button>
                   </td>
                   <td>
-                    <ul></ul>
+                    <ul>
+                        { request._1_.info.items.map(item => <li>{String(item)}</li>)
+                        }
+                    </ul>
                   </td>
                   <td>{String(request._1_.info.note)}</td>
                   <td>{String(["_1_", "info", "reward"].reduce((n,i) => n&&n[i], request))} S</td>

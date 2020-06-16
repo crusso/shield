@@ -263,6 +263,7 @@ class App extends React.Component {
           navigateTo={this.navigateTo}
           state={this.state}
           makeMap={this.makeMap}
+          makeMarkers={this.makeMarkers}
         />
       );
     } else if (this.state.view === C.HELPER_REGISTRATION) {
