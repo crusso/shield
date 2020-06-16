@@ -21,10 +21,6 @@ actor {
     var requests =
      M.HashMap<T.RequestId, T.RequestState>(100, T.RequestId.eq, T.RequestId.hash);
 
-    // delete me
-    public func greet(name : Text) : async Text {
-        return "Hello, " # name # "!";
-    };
 
     public shared query {caller} func whoAmIAndHowDidIGetHere() : async T.Hominid {
         // No idea how you got here but I know who you are, earthling!
@@ -102,7 +98,7 @@ actor {
         return true;
     };
 
-    // Helper Interface
+    // Helper Interface, finds relevant/nearby Active requests
     public shared query {caller} func findRequests() : async [(T.RequestId, T.Request)] {
         let h = switch (helpers.get(caller)) {
             case null { throw Prim.error("unknown helper") };
@@ -114,6 +110,7 @@ actor {
                    case _ false }) 
                 and 
                 Types.getDistanceFromLatLng(h.location, rs.info.requestLocation) <= h.radiusKm
+                ///and ... relevant RequestType...Array
                ) 
             { ? rs.info;
             }
@@ -124,6 +121,24 @@ actor {
         return Iter.toArray(rs.iter());
     };
 
+    // Helper Interface
+    public shared query {caller} func helperRequests() : async [(T.RequestId, T.Request)] {
+        let h = switch (helpers.get(caller)) {
+            case null { throw Prim.error("unknown helper") };
+            case (?h) { h };
+        };
+        func filter(rid:T.RequestId, rs: T.RequestState) : ? T.Request {
+            if (switch (rs.status) {
+                 case (#accepted h) h == caller;
+                 case _ false }) 
+            { ? rs.info;
+            }
+            else null;
+        };
+        let rs = M.mapFilter(requests, T.RequestId.eq, T.RequestId.hash, filter);
+
+        return Iter.toArray(rs.iter());
+    };
     
     public shared {caller} func acceptRequest(rid: T.RequestId) : async Bool {
         let h = switch (helpers.get(caller)) {
