@@ -2,6 +2,8 @@
 
 Project Shield is a POC volunteering app, matching located helpers/volunteers with nearby vulnerable users requiring assistance (for shopping requests).
 
+[Slides](https://docs.google.com/presentation/d/1-4phUn7TjWgTSQT18IDQ8Hkhw9qcF9wSl4bLMZXqdxA/edit?usp=sharing)
+
 [Screenshot](./images/shield.png)
 
 [Supporting materials](https://drive.google.com/drive/folders/1XYAEynOAmfndBrFJzErdAYPyOF3b_27t)
