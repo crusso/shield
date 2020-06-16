@@ -20,10 +20,10 @@ The dfx project is a multi-canister project with 2 main canisters and 20 identic
 
 * [Shield Actor](./src/shield/): Centralized mutable registry of users, helpers and requests. The former are authenticated by caller id (for better or worse). Implemented using three base `HashMaps`.
 
-* [Shield Front-end](./src/shield/public/index.jsx): react, multi-page (?) front-end displaying maps with pins for helpers and (nearby) requests.
+* [Shield Front-end](./src/shield/public/): react, multi-page (?) front-end displaying maps with pins for helpers and (nearby) requests.
 Appearance basic but fully functional, should be stylable via css (future work).
 
-* [Balance Actor](./src/shield/): central *bank* managing user accounts storing shield tokens. Authenticated by caller id (for better or worse).
+* [Balance Actor](./src/balance/): central *bank* managing user accounts storing shield tokens. Authenticated by caller id (for better or worse).
 Endowed by shield canister, used both by users and helpers.  Account creation and transfers initiated soley by shield canister (the `trust` principal, for want of better name).
 
 * [User Actor](./src/user/) Generic user agent capable of impersonating a single shield user or shield helper. Used by test script [run.sh](run.sh) to prepoplute replica with small number of users and canisters.
