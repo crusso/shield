@@ -16,21 +16,21 @@ Project Shield is a POC volunteering app, matching helpers/volunteers with users
 # Guide to the code
 
 
-The dfx project is a multi-canister project with 2 main canisters and 20 identical, replicated agent canisters used to simulate additional human users/helpers making/servicing requests.
+The dfx project is a [multi-canister project](dfx.json) with 2 main canisters and 20 identical, replicated agent canisters used to simulate additional human users/helpers making/servicing requests.
 
-* [Shield Actor](./src/shield/): Centralized mutable registry of users, helpers and requests. The former are authenticated by caller id (for better or worse). Implemented using three base `HashMaps`.
+* [Shield canister](./src/shield/): Centralized mutable registry of users, helpers and requests. The former are authenticated by caller id (for better or worse). Implemented using three base `HashMaps`.
 
 * [Shield Front-end](./src/shield/public/): react, multi-page (?) front-end displaying maps with pins for helpers and (nearby) requests.
 Appearance basic but fully functional, should be stylable via css (future work).
 
-* [Balance Actor](./src/balance/): central *bank* managing user accounts storing shield tokens. Authenticated by caller id (for better or worse).
+* [Balance canister](./src/balance/): central *bank* managing user accounts storing shield tokens. Authenticated by caller id (for better or worse).
 Endowed by shield canister, used both by users and helpers.  Account creation and transfers initiated soley by shield canister (the `trust` principal, for want of better name).
 
-* [User Actor](./src/user/) Generic user agent capable of impersonating a single shield user or shield helper. Used by test script [run.sh](run.sh) to prepoplute replica with small number of users and canisters.
+* [User canister(s)](./src/user/) Generic user agent capable of impersonating a single shield user or shield helper. Used by test script [run.sh](run.sh) to prepoplute replica with small number of users and canisters.
 Forged to set up an artificial environment of users/helpers located around Zurich. Each agent canister registers itself with shield.
 Each user agent additionally makes a single request (for help purchasing some item).
 
-* [tokenomics](./src/tokenomics/) Exchange for converting balance canisters shield tokens to other token (ideally DFN). Sketched by resident economist but not yet used.
+* [Tokenomics](./src/tokenomics/) Exchange for converting balance canisters shield tokens to other token (ideally DFN). Sketched by resident economist but not yet used.
 
 TODOs:
 * rename user canister to more generic agent canister (serving role of shield user or helper).
