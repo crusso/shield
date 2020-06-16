@@ -2,6 +2,8 @@
 .vscode/
 .idea/
 **/*~
+**/.*.swp
+,*
 
 # Mac OSX temporary files
 .DS_Store
