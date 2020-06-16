@@ -8,7 +8,7 @@ Project Shield is a POC volunteering app, matching located helpers/volunteers wi
 
 [Video](https://drive.google.com/file/d/1Y2Vmm9DxZuv0Psp2bopxq7nPrEjJInMS/view?usp=sharing)
 
-# Requirments
+# Requirements
 
 * DFX 0.5.7 (!)
 * react and other javascript detritus.
