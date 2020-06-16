@@ -32,6 +32,7 @@ class App extends React.Component {
       requests: null, // Requests posted or accepted by this user/helper.
       open_requests: null, // Unclaimed requests.
       balance: 0,
+      newRequest: this.blankRequest(),
     };
     this.visuals = {};
     this.getLocation();
@@ -71,7 +72,7 @@ class App extends React.Component {
   registerUser = async (user) => {
     this.state.errorMessage = "";
     try {
-      user.location = this.state.location;
+      user.location = this.state.me.user[0].location;
       const response = await shield.registerUser(user);
       console.log("registerUser", response);
       this.setState({ ...this.state, me: { user: [user], helper: [] } });
@@ -84,16 +85,27 @@ class App extends React.Component {
   getUserEnvironment = async () => {
     await this.findHelpers();
     await this.getUserRequests();
-    await this.getBalance().catch(e => console.error("Failed to get balance", e.message));
+    await this.getBalance().catch((e) =>
+      console.error("Failed to get balance", e.message)
+    );
   };
   getHelperEnvironment = async () => {
-    await Promise.all([this.getHelperRequests(), this.getOpenRequests(), this.getBalance().catch(e => console.error("Failed to get balance:", e.message))]);
+    await Promise.all([
+      this.getHelperRequests(),
+      this.getOpenRequests(),
+      this.getBalance().catch((e) =>
+        console.error("Failed to get balance:", e.message)
+      ),
+    ]);
   };
   getBalance = async () => {
-    balance.checkAccount().then(res => console.log("Balance:", res)).catch(console.error);
+    balance
+      .checkAccount()
+      .then((res) => console.log("Balance:", res))
+      .catch(console.error);
     let balance = await balance.checkAccount();
-    this.setState({...this.state, balance});
-  }
+    this.setState({ ...this.state, balance });
+  };
   getHelperRequests = async () => {
     //let requests = []; // How can I get a list of the tasks that a helper has accepted?
     let requests = Array(2)
@@ -197,10 +209,18 @@ class App extends React.Component {
       console.error("Failed to add markers:", e.message);
     }
   };
+  blankRequest = () => ({
+    requestType: { grocery: null },
+    note: "",
+    items: [],
+    reward: 1,
+    location: { lat: null, lng: null },
+  });
   createRequest = async (request) => {
     try {
       console.log("Creating request:", request);
       this.state.errorMessage = "";
+      request.location = this.state.location;
       await shield.postRequest(request);
       this.state.requests.push(request);
       this.setState(this.state);

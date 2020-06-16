@@ -1,6 +1,6 @@
 export function toyRequest() {
   return {
-    requestType: {"grocery":null},
+    requestType: { grocery: null },
     requestLocation: {
       lat: 47.2 + Math.random() / 10,
       lng: 8.6 + Math.random() / 10,

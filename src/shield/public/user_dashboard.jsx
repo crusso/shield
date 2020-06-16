@@ -18,7 +18,7 @@ export const UserDashboard = ({ navigateTo, state, makeMap }) => {
     <div style={{ "font-size": "30px" }}>
       <div style={{ "background-color": "yellow" }}>
         <span>SHIELD USER DASHBOARD</span>
-        <span style={{float: "right"}}>{state.balance} S</span>
+        <span style={{ float: "right" }}>{state.balance} S</span>
       </div>
       <div
         style={{

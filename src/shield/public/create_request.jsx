@@ -8,7 +8,7 @@ export const CreateRequest = ({ state, createRequest }) => {
     <div style={{ "font-size": "30px" }}>
       <div style={{ "background-color": "yellow" }}>
         <span>SHIELD USER: CREATE REQUEST</span>
-        <span style={{float: "right"}}>{state.balance} S</span>
+        <span style={{ float: "right" }}>{state.balance} S</span>
       </div>
       <div
         style={{

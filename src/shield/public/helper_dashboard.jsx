@@ -16,7 +16,7 @@ export const HelperDashboard = ({
     <div style={{ "font-size": "30px" }}>
       <div style={{ "background-color": "yellow" }}>
         <span>SHIELD HELPER DASHBOARD</span>
-        <span style={{float: "right"}}>{state.balance} S</span>
+        <span style={{ float: "right" }}>{state.balance} S</span>
       </div>
 
       <div
@@ -57,7 +57,9 @@ export const HelperDashboard = ({
           {state.requests.length ? (
             state.requests.map((request, index) => (
               <tr
-                style={{ backgroundColor: index % 2 === 0 ? "#EEEEEE" : "#EFEFEF" }}
+                style={{
+                  backgroundColor: index % 2 === 0 ? "#EEEEEE" : "#EFEFEF",
+                }}
               >
                 <td>{request._1_.type}</td>
                 <td>
