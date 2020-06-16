@@ -74,7 +74,16 @@ export const UserDashboard = ({ navigateTo, state, makeMap, makeMarkers }) => {
                     backgroundColor: index % 2 === 0 ? "#EEEEEE" : "#EFEFEF",
                   }}
                 >
-                  <td>{String(Object.keys(["_1_", "info", "requestType"].reduce((n,i) => n&&n[i], request)||{})[0])}</td>
+                  <td>
+                    {String(
+                      Object.keys(
+                        ["_1_", "info", "requestType"].reduce(
+                          (n, i) => n && n[i],
+                          request
+                        ) || {}
+                      )[0]
+                    )}
+                  </td>
                   <td>
                     <button
                       onClick={() =>
@@ -86,12 +95,22 @@ export const UserDashboard = ({ navigateTo, state, makeMap, makeMarkers }) => {
                   </td>
                   <td>
                     <ul>
-                        { request._1_.info.items.map(item => <li>{String(item)}</li>)}
+                      {request._1_.info.items.map((item) => (
+                        <li>{String(item)}</li>
+                      ))}
                     </ul>
                   </td>
                   <td>{String(request._1_.info.note)}</td>
-                  <td>{String(["_1_", "info", "reward"].reduce((n,i) => n&&n[i], request))} S</td>
-                  <td>{String(Object.keys(request._1_.status)[0])} S</td>
+                  <td>
+                    {String(
+                      ["_1_", "info", "reward"].reduce(
+                        (n, i) => n && n[i],
+                        request
+                      )
+                    )}{" "}
+                    S
+                  </td>
+                  <td>{String(Object.keys(request._1_.status)[0])}</td>
                 </tr>
               ))
             ) : (
