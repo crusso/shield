@@ -12,7 +12,8 @@ import { FindRequest } from "./find_request.jsx";
 import * as C from "./const.js";
 import { leaflet, mapbox_token } from "./lib/leaflet-src.js";
 
-// TODO: Remove:
+// Enable access to the canister APIs from the console.
+// This is much quicker than recompiling the react client, if you want to run some test queries.
 window.shield = shield;
 window.balance = balance;
 
@@ -286,7 +287,11 @@ class App extends React.Component {
       );
     } else if (this.state.view === C.FIND_REQUEST) {
       return (
-        <FindRequest state={this.state} acceptRequest={this.acceptRequest} navigateTo={this.navigateTo} />
+        <FindRequest
+          state={this.state}
+          acceptRequest={this.acceptRequest}
+          navigateTo={this.navigateTo}
+        />
       );
     } else {
       return <FrontPage navigateTo={this.navigateTo} />;
