@@ -11,6 +11,7 @@ export const FindRequest = ({ state, acceptRequest, navigateTo }) => {
         id="open-tasks"
         style={{
           margin: "30px",
+          width: "100%",
         }}
       >
         <thead style={{ "font-weight": "bold" }}>

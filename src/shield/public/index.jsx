@@ -58,7 +58,7 @@ class App extends React.Component {
     name: { first: null, last: null },
     email: null,
     address: [],
-    age: undefined,
+    age: 0,
     disability: [],
   });
   registerUser = async (user) => {
@@ -286,7 +286,7 @@ class App extends React.Component {
       );
     } else if (this.state.view === C.FIND_REQUEST) {
       return (
-        <FindRequest state={this.state} acceptRequest={this.acceptRequest} />
+        <FindRequest state={this.state} acceptRequest={this.acceptRequest} navigateTo={this.navigateTo} />
       );
     } else {
       return <FrontPage navigateTo={this.navigateTo} />;

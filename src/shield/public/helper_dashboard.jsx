@@ -38,6 +38,7 @@ export const HelperDashboard = ({
         id="accepted-tasks"
         style={{
           margin: "30px",
+          width: "100%",
         }}
       >
         <thead style={{ "font-weight": "bold" }}>
