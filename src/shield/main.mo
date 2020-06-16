@@ -7,8 +7,10 @@ import Option "mo:base/Option";
 import Prim "mo:prim";
 import T "./types";
 import Types "types";
+import balance "canister:balance";
 
 actor {
+
 
     var requestId = 0;
 
@@ -21,6 +23,16 @@ actor {
     var requests =
      M.HashMap<T.RequestId, T.RequestState>(100, T.RequestId.eq, T.RequestId.hash);
 
+    let userEndowment = 200;
+    let helperEndowment = 0;
+    let reserveEndowment = 100_000_000;
+    var endowed = false;
+    func endowOnce() : async () {
+      if (not endowed) {
+        await balance.endow(reserveEndowment);
+	endowed := true;
+      };
+    };
 
     public shared query {caller} func whoAmIAndHowDidIGetHere() : async T.Hominid {
         // No idea how you got here but I know who you are, earthling!
@@ -35,17 +47,25 @@ actor {
         let ans: T.Hominid = { user=u; helper=h; };
         return ans;
     };
-    
+
     public shared {caller} func registerHelper(h : T.Helper) : async T.HelperId {
+        await endowOnce();
         switch (helpers.set(caller, h)) {
-            case null caller;
+            case null {
+  	      await balance.register(caller, helperEndowment);
+	      caller;
+	    };
             case (? _) { throw Prim.error("already registered") };
         };
     };
 
     public shared {caller} func registerUser(u : T.User) : async T.UserId {
+        await endowOnce();
         switch (users.set(caller, (u,[]))) {
-            case null caller;
+            case null {
+	      await balance.register(caller, userEndowment);
+	      caller;
+            };
             case (? _) { throw Prim.error("already registered") };
         };
     };
@@ -64,7 +84,6 @@ actor {
               return rId;
             }
         };
-        
     };
 
     public shared query {caller} func userRequests() : async [(T.RequestId, T.RequestState)] {
@@ -88,12 +107,13 @@ actor {
         if (rs.user != caller) return false; // can't confirm other's requests
         let delivered = switch (rs.status) {
             case (#accepted h) {
-                // TODO: balance.transfer(h,rs.info.reward) - held in escrow by shield?;
+   		// Better: held in escrow by shield so caller can't overspend
+                await balance.transfer(caller, h, rs.info.reward);
                 #confirmed;
             };
             case _ { return false; }
         };
-        // update request status;        
+        // update request status;
         ignore requests.set(rid, { info = rs.info; status = delivered; user = rs.user });
         return true;
     };
