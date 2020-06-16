@@ -179,6 +179,8 @@ let helpers =
       },
    ];
 
+var items = 
+[("apples",2), ("oranges",3), ("ham",5), ("cheese",5), ("milk",2), ("bread",2)];
 
 
 actor {
@@ -199,18 +201,24 @@ actor {
        let uid = await shield.registerUser(user);  
        log("registered user");
 
+       let item = items[user_no % items.len()];
        //make one request
        let rid = await shield.postRequest({
           requestType = #grocery;
           requestLocation = user.location; //hack
           note = "cheers";
-          items = ["ciggies"];
-          reward = 1;
+          items = [item.0];
+          reward = item.1;
        }); 
-       log("posted request " # Nat.toText(rid));
+
+       log("posted request " # Nat.toText(rid) # " " # item.0);
+
+       return; // exit early to avoid replica bug
+       
        // loop until first acceptance, confirm it
        label poll {
-       loop {
+       loop 
+       {
           let reqs = await shield.userRequests();
           for ((rid, state) in reqs.vals()) {
              switch (state.status) {
@@ -244,9 +252,13 @@ actor {
        log("started helper");
        let uid = await shield.registerHelper(helpers[helper_no % helpers.len()]);  
        log("registered helper");
+
+       return; // exit early to avoid replica bug
+
        let reqs = await shield.findRequests();
        label poll {
-         loop {
+       loop 
+         {
            for ((rid, info) in reqs.vals()) {
              if (await shield.acceptRequest(rid)) { 
                 log("accepted request" # Nat.toText(rid));
