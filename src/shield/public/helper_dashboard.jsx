@@ -13,8 +13,8 @@ export const HelperDashboard = ({
   });
 
   return (
-    <div style={{ "font-size": "30px" }}>
-      <div style={{ "background-color": "yellow" }}>
+    <div style={{ "font-size": "30px" }} class = "helper">
+      <div style={{ "background-color": "yellow" }} >
         <span>SHIELD HELPER DASHBOARD</span>
         <span style={{ float: "right" }}>{state.balance} S</span>
       </div>

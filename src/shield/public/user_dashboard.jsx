@@ -17,7 +17,7 @@ export const UserDashboard = ({
   });
 
   return (
-    <div style={{ "font-size": "30px" }}>
+      <div style={{ "font-size": "30px" }} classname = "user">
       <div style={{ "background-color": "yellow" }}>
         <span>SHIELD USER DASHBOARD</span>
         <span style={{ float: "right" }}>{state.balance} S</span>

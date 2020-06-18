@@ -65,11 +65,11 @@ class App extends React.Component {
     });
   }
   blankUser = () => ({
-    name: { first: null, last: null },
-    email: null,
-    address: [],
-    age: 0,
-    disability: [],
+    name: { first: "Claudio", last: "Russo"},
+    email: "cvr@hotmail.com",
+    address: ["Girton"],
+    age: 50,
+    disability: [{other: null}],
   });
   registerUser = async (user) => {
     this.state.errorMessage = "";
@@ -141,10 +141,10 @@ class App extends React.Component {
     this.getUserRequests();
   };
   blankHelper = () => ({
-    name: { first: null, last: null },
-    radiusKm: null,
-    email: null,
-    services: [],
+    name: { first: "Good", last: "Samaritan" },
+    radiusKm: 5,
+    email: "goodie@gmail.com",
+    services: [{grocery:null}],
   });
   registerHelper = async (helper) => {
     this.state.errorMessage = "";
