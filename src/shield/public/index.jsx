@@ -12,6 +12,15 @@ import { FindRequest } from "./find_request.jsx";
 import * as C from "./const.js";
 import { leaflet, mapbox_token } from "./lib/leaflet-src.js";
 
+
+import "bootstrap/dist/css/bootstrap.min.css";
+import "./styles.css";var link = document.createElement('link');
+
+link.setAttribute('rel', 'stylesheet');
+link.setAttribute('type', 'text/css');
+link.setAttribute('href', 'https://fonts.googleapis.com/css?family=Press+Start+2P');
+document.head.appendChild(link);
+
 // Enable access to the canister APIs from the console.
 // This is much quicker than recompiling the react client, if you want to run some test queries.
 window.shield = shield;
