@@ -1,0 +1,30 @@
+body {
+    background-color: lightblue
+}
+
+button {
+    border: solid black;
+    background-color: lightgreen 
+}
+
+input { 
+    background-color: lightyellow
+}
+select { 
+    background-color: lightyellow
+}
+
+tr  {
+    background-color: aliceblue;
+    border: solid black
+}
+
+
+.user {
+    background-color: lightblue
+}
+
+
+.helper {
+    background-color: pink
+}

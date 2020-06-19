@@ -12,6 +12,15 @@ import { FindRequest } from "./find_request.jsx";
 import * as C from "./const.js";
 import { leaflet, mapbox_token } from "./lib/leaflet-src.js";
 
+
+import "bootstrap/dist/css/bootstrap.min.css";
+import "./styles.css";var link = document.createElement('link');
+
+link.setAttribute('rel', 'stylesheet');
+link.setAttribute('type', 'text/css');
+link.setAttribute('href', 'https://fonts.googleapis.com/css?family=Press+Start+2P');
+document.head.appendChild(link);
+
 // Enable access to the canister APIs from the console.
 // This is much quicker than recompiling the react client, if you want to run some test queries.
 window.shield = shield;
@@ -56,11 +65,11 @@ class App extends React.Component {
     });
   }
   blankUser = () => ({
-    name: { first: null, last: null },
-    email: null,
-    address: [],
-    age: 0,
-    disability: [],
+    name: { first: "Claudio", last: "Russo"},
+    email: "cvr@hotmail.com",
+    address: ["Girton"],
+    age: 50,
+    disability: [{other: null}],
   });
   registerUser = async (user) => {
     this.state.errorMessage = "";
@@ -132,10 +141,10 @@ class App extends React.Component {
     this.getUserRequests();
   };
   blankHelper = () => ({
-    name: { first: null, last: null },
-    radiusKm: null,
-    email: null,
-    services: [],
+    name: { first: "Good", last: "Samaritan" },
+    radiusKm: 5,
+    email: "goodie@gmail.com",
+    services: [{grocery:null}],
   });
   registerHelper = async (helper) => {
     this.state.errorMessage = "";
