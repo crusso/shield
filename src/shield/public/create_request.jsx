@@ -8,10 +8,12 @@ function encodeVariant(name) {
 
 export const CreateRequest = ({ state, createRequest }) => {
   return (
-    <div style={{ "font-size": "30px" }}>
-      <div style={{ "background-color": "yellow" }}>
+    <div style={{ "font-size": "30px" }} class="user">
+      <div class="title">
         <span>SHIELD USER: CREATE REQUEST</span>
-        <span style={{ float: "right" }}>{state.balance} S</span>
+        <span style={{ float: "right" }} class="credit">
+          {state.balance}
+        </span>
       </div>
       <div
         style={{

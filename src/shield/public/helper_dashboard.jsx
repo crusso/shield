@@ -13,10 +13,12 @@ export const HelperDashboard = ({
   });
 
   return (
-    <div style={{ "font-size": "30px" }} class = "helper">
-      <div style={{ "background-color": "yellow" }} >
+    <div style={{ "font-size": "30px" }} class="helper">
+      <div class="title">
         <span>SHIELD HELPER DASHBOARD</span>
-        <span style={{ float: "right" }}>{state.balance} S</span>
+        <span style={{ float: "right" }} class="credit">
+          {state.balance}
+        </span>
       </div>
 
       <div
@@ -24,14 +26,18 @@ export const HelperDashboard = ({
         style={{
           margin: "30px",
           display: "grid",
-          "grid-template-columns": "200px auto",
+          gridTemplateColumns: "200px auto",
+          gridColumnGap: "30px",
         }}
       >
         <div>
           <div>Hello {state.me.helper[0].name.first}.</div>
-          <div>Thank you for helping</div>
+          <div style={{ fontSize: "smaller" }}>Thank you for helping</div>
         </div>
-        <div id="mapid" style={{ height: "180px" }}></div>
+        <div
+          id="mapid"
+          style={{ height: "180px", width: "100%", backgroundColor: "#AAA" }}
+        ></div>
       </div>
 
       <table
@@ -59,7 +65,10 @@ export const HelperDashboard = ({
             state.requests.map((request, index) => (
               <tr
                 style={{
-                  backgroundColor: index % 2 === 0 ? "#EEEEEE" : "#EFEFEF",
+                  backgroundColor:
+                    index % 2 === 0
+                      ? "var(--background-color)"
+                      : "var(--darker-background-color)",
                 }}
               >
                 <td>{String(Object.keys(request._1_.requestType)[0])}</td>
@@ -78,11 +87,15 @@ export const HelperDashboard = ({
                   </ul>
                 </td>
                 <td>{String(request._1_.note)}</td>
-                <td>{String(request._1_.reward)} S</td>
+                <td>
+                  <span class="credit">{String(request._1_.reward)}</span>
+                </td>
               </tr>
             ))
           ) : (
-            <tr colspan="10">You have accepted no requests</tr>
+            <tr>
+              <td colspan="10">You have accepted no requests</td>
+            </tr>
           )}
         </tbody>
       </table>
