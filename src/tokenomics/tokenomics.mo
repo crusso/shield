@@ -2,13 +2,12 @@ import Debug "mo:base/Debug";
 import Float "mo:base/Float";
 import Int "mo:base/Int";
 
-actor {
-    var PhiSupply : Nat = 0;
-    var ShieldSupply : Nat = 0;
-    var ExchangeRate : Float = 0;
-    var NumberElder : Nat = 0;
-    var NumberHelper : Nat = 0;
+// This code is incomplete and unused.
 
+actor {
+    flexible var PhiSupply : Nat = 0;
+    flexible var ShieldSupply : Nat = 0;
+    flexible var ExchangeRate : Float = 0;
 
     // Read the total PHI in the pool with an inquire function.
     public query func totalPhi() : async Nat {
@@ -18,22 +17,16 @@ actor {
     public func donatePhi(n: Nat) : async () {
         PhiSupply += n;
     };
-    // Read the total Het in the pool with an inquire function.
+    // Read the total Shield in the pool with an inquire function.
     public query func totalShield() : async Nat {
         ShieldSupply
     };
-    // indicate how many Het to mint.
+    // indicate how many Shield to mint.
     public func mintShield(n: Nat) : async () {
         ShieldSupply += n;
     };
 
-   // award tokens to elder registers
-    public func tokenTransfer(name : Text) : async Text {
-        return "100 SHIELD tokens are awarded to " # name # "!";
-    };
-
-
-    // ???
+    // calculate the exchage rate
     public func exchangeRate() : async Float {
       if (ShieldSupply : Nat != 0)
         ExchangeRate :=
@@ -42,8 +35,4 @@ actor {
       return ExchangeRate
    };
 
-   //???
-   public query func test() : async () {
-      Debug.print ("The currenct exchange rate is 1 SHIELD = 1.2 PHI \n");
-   };
 }

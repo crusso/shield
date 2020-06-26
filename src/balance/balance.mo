@@ -9,12 +9,13 @@ actor {
     // Type aliases make the rest of the code easier to read.
     public type Name = Principal;
     public type ShieldBalance = Nat;
-    var reserve : ShieldBalance = 0;
 
-    var trustOpt : ?Principal = null;
+    flexible var reserve : ShieldBalance = 0;
+
+    flexible var trustOpt : ?Principal = null;
 
     // The actor maps names to token balances.
-    var book: A.AssocList<Name, ShieldBalance> = L.nil<(Name, ShieldBalance)>();
+    flexible var book: A.AssocList<Name, ShieldBalance> = L.nil<(Name, ShieldBalance)>();
 
     // An auxiliary function checks whether two names are equal.
     func nameEq(l: Name, r: Name): Bool {

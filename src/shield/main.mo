@@ -11,22 +11,21 @@ import balance "canister:balance";
 
 actor {
 
+    flexible var requestId = 0;
 
-    var requestId = 0;
-
-    var users =
+    flexible var users =
      M.HashMap<T.UserId,(T.User,[T.RequestId])>(100, T.UserId.eq, T.UserId.hash);
-
-    var helpers =
+    flexible var helpers =
      M.HashMap<T.HelperId,T.Helper>(100, T.HelperId.eq, T.HelperId.hash);
 
-    var requests =
+    flexible var requests =
      M.HashMap<T.RequestId, T.RequestState>(100, T.RequestId.eq, T.RequestId.hash);
 
-    let userEndowment = 200;
-    let helperEndowment = 0;
-    let reserveEndowment = 100_000_000;
-    var endowed = false;
+    flexible let userEndowment = 200;
+    flexible let helperEndowment = 0;
+    flexible let reserveEndowment = 100_000_000;
+    flexible var endowed = false;
+
     func endowOnce() : async () {
       if (not endowed) {
         await balance.endow(reserveEndowment);
