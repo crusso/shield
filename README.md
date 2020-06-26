@@ -29,27 +29,31 @@ The dfx project is a [multi-canister project](dfx.json) with 2 main canisters an
 Appearance basic but fully functional, should be stylable via css (future work).
 
 * [Balance canister](./src/balance/): central *bank* managing user accounts storing shield tokens. Authenticated by caller id (for better or worse).
-Endowed by shield canister, used both by users and helpers.  Account creation and transfers initiated soley by shield canister (the `trust` principal, for want of a better name).
+Endowed by shield canister, used both by users and helpers.  Account creation and transfers initiated solely by shield canister (the `trust` principal, for want of a better name).
 
-* [User canister(s)](./src/user/) Generic user agent capable of impersonating a single shield user or shield helper. Used by test script [run.sh](run.sh) to prepoplute replica with small number of users and canisters.
+* [User canister(s)](./src/user/) Generic user agent capable of impersonating a single shield user or shield helper. Used by test script [run.sh](run.sh) to prepopulate the replica with a small number of users and canisters.
 Forged to set up an artificial environment of users/helpers located around Zurich. Each agent canister registers itself with shield.
 Each user agent additionally makes a single request (for help purchasing some item).
 
 TODOs:
 * rename user canister to more generic agent canister (serving role of shield user or helper).
 * user-specified rewards in UI (implemented, but not exposed, default to `1` shield token).
-* html input-validation
+* HTML input-validation
 * token exchange.
 * privacy-oriented design (we record way to much but that was the spec).
 * Escrow to avoid overspend by user (user can make more requests than he can afford)
 
+Known bugs:
+* default user/helper field values can't be changed in UI
+* helper registration polls for request before registration, provoking a reject.
 
 # Getting the code
 
 ```bash
 git clone git@github.com:crusso/shield.git
+cd shield
+npm install
 ```
-
 
 # Running
 
