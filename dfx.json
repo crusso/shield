@@ -1,9 +1,5 @@
 {
   "canisters": {
-    "tokenomics": {
-      "main": "src/tokenomics/tokenomics.mo",
-      "type": "motoko"
-    },
     "balance": {
       "main": "src/balance/balance.mo",
       "type": "motoko"

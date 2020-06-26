@@ -35,8 +35,6 @@ Endowed by shield canister, used both by users and helpers.  Account creation an
 Forged to set up an artificial environment of users/helpers located around Zurich. Each agent canister registers itself with shield.
 Each user agent additionally makes a single request (for help purchasing some item).
 
-* [Tokenomics](./src/tokenomics/) Exchange for converting balance canisters shield tokens to other token (ideally DFN). Sketched by resident economist but not yet used.
-
 TODOs:
 * rename user canister to more generic agent canister (serving role of shield user or helper).
 * user-specified rewards in UI (implemented, but not exposed, default to `1` shield token).
