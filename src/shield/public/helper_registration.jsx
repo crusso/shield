@@ -13,8 +13,8 @@ export const HelperRegistration = ({ state, helper, registerHelper }) => {
     });
   };
   return (
-    <div style={{ "font-size": "30px" }} class="helper" >
-      <div style={{ "background-color": "yellow" }}>
+    <div style={{ "font-size": "30px" }} class="helper">
+      <div class="title">
         <p>SHIELD HELPER REGISTRATION</p>
       </div>
       <div

@@ -17,21 +17,24 @@ export const UserDashboard = ({
   });
 
   return (
-      <div style={{ "font-size": "30px" }} class = "user">
-      <div style={{ "background-color": "yellow" }}>
+    <div style={{ "font-size": "30px" }} class="user">
+      <div class="title">
         <span>SHIELD USER DASHBOARD</span>
-        <span style={{ float: "right" }}>{state.balance} S</span>
+        <span style={{ float: "right" }} class="credit">
+          {state.balance}
+        </span>
       </div>
       <div
         style={{
           margin: "30px",
           display: "grid",
-          "grid-template-columns": "200px auto",
+          gridTemplateColumns: "200px auto",
+          gridColumnGap: "30px",
         }}
       >
         <div>
           <div>Hello {state.me.user[0].name.first}.</div>
-          <div>
+          <div style={{ fontSize: "smaller" }}>
             {(state.nearbyHelpers || []).length === 0
               ? "We are looking for helpers near you."
               : `There are ${
@@ -39,7 +42,10 @@ export const UserDashboard = ({
                 } helpers living near you.`}
           </div>
         </div>
-        <div id="mapid" style={{ height: "180px" }}></div>
+        <div
+          id="mapid"
+          style={{ height: "180px", width: "100%", backgroundColor: "#AAA" }}
+        ></div>
       </div>
       <div>
         <div></div>
@@ -74,7 +80,10 @@ export const UserDashboard = ({
               state.requests.map((request, index) => (
                 <tr
                   style={{
-                    backgroundColor: index % 2 === 0 ? "#EEEEEE" : "#EFEFEF",
+                    backgroundColor:
+                      index % 2 === 0
+                        ? "var(--background-color)"
+                        : "var(--darker-background-color)",
                   }}
                 >
                   <td>
@@ -105,13 +114,9 @@ export const UserDashboard = ({
                   </td>
                   <td>{String(request._1_.info.note)}</td>
                   <td>
-                    {String(
-                      ["_1_", "info", "reward"].reduce(
-                        (n, i) => n && n[i],
-                        request
-                      )
-                    )}{" "}
-                    S
+                    <span class="credit">
+                      {String(request._1_.info.reward)}
+                    </span>
                   </td>
                   <td>
                     {String(Object.keys(request._1_.status)[0]) ===
@@ -126,7 +131,9 @@ export const UserDashboard = ({
                 </tr>
               ))
             ) : (
-              <tr colspan="10">You have no current requests</tr>
+              <tr>
+                <td colspan="10">You have no current requests</td>
+              </tr>
             )}
           </tbody>
         </table>

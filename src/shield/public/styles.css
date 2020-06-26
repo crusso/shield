@@ -1,30 +1,44 @@
+:root {
+  --user-primary: #F205CB;
+  --helper-primary: #7C05F2;
+  --background-color: #CCC7D1;
+  --darker-background-color: #998FA3;
+}
+
 body {
-    background-color: lightblue
+    background-color: var(--background-color);
 }
 
 button {
-    border: solid black;
-    background-color: lightgreen 
+    border-radius: 4px;
+    color: #FFF;
+    border: 0;
+    background-color: var(--primary);
+    margin: 30px;
 }
 
-input { 
-    background-color: lightyellow
-}
-select { 
-    background-color: lightyellow
-}
-
-tr  {
-    background-color: aliceblue;
-    border: solid black
+.title {
+  background-color: #F23827;
+  color: #FFF;
+  padding-left: 30px;
 }
 
+.leaflet-container {
+  background-color: #CCC;
+}
 
 .user {
-    background-color: lightblue
+  --primary: #F205CB;
 }
 
 
 .helper {
-    background-color: pink
+  --primary: #7C05F2;
+}
+
+.credit::after { 
+  content:"CREDIT";
+  font-size: 6px;
+  display: inline-block;
+  transform: rotate(90deg) translate(-8px, 0px);
 }
