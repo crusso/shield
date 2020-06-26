@@ -50,7 +50,7 @@ actor {
 
     public shared {caller} func registerHelper(h : T.Helper) : async T.HelperId {
         await endowOnce();
-        switch (helpers.set(caller, h)) {
+        switch (helpers.swap(caller, h)) {
             case null {
   	      await balance.register(caller, helperEndowment);
 	      caller;
@@ -61,7 +61,7 @@ actor {
 
     public shared {caller} func registerUser(u : T.User) : async T.UserId {
         await endowOnce();
-        switch (users.set(caller, (u,[]))) {
+        switch (users.swap(caller, (u,[]))) {
             case null {
 	      await balance.register(caller, userEndowment);
 	      caller;
@@ -78,9 +78,9 @@ actor {
               let rId = requestId;
               requestId += 1;
               // add rId to user's requests
-              ignore users.set(caller,(u, Array.append([rId],rs)));
+              users.set(caller,(u, Array.append([rId],rs)));
               // add rId to requests, initially #active
-              ignore requests.set(rId, { info = r; status = #active; user = caller });
+              requests.set(rId, { info = r; status = #active; user = caller });
               return rId;
             }
         };
@@ -114,7 +114,7 @@ actor {
             case _ { return false; }
         };
         // update request status;
-        ignore requests.set(rid, { info = rs.info; status = delivered; user = rs.user });
+        requests.set(rid, { info = rs.info; status = delivered; user = rs.user });
         return true;
     };
 
@@ -127,11 +127,11 @@ actor {
         func filter(rid:T.RequestId, rs: T.RequestState) : ? T.Request {
             if ((switch (rs.status) {
                    case (#active) true;
-                   case _ false }) 
-                and 
+                   case _ false })
+                and
                 Types.getDistanceFromLatLng(h.location, rs.info.requestLocation) <= h.radiusKm
                 ///and ... relevant RequestType...Array
-               ) 
+               )
             { ? rs.info;
             }
             else null;
@@ -150,7 +150,7 @@ actor {
         func filter(rid:T.RequestId, rs: T.RequestState) : ? T.Request {
             if (switch (rs.status) {
                  case (#accepted h) h == caller;
-                 case _ false }) 
+                 case _ false })
             { ? rs.info;
             }
             else null;
@@ -159,7 +159,7 @@ actor {
 
         return Iter.toArray(rs.iter());
     };
-    
+
     public shared {caller} func acceptRequest(rid: T.RequestId) : async Bool {
         let h = switch (helpers.get(caller)) {
             case null { throw Prim.error("unknown helper") };
@@ -173,8 +173,8 @@ actor {
             case (#active) (#accepted caller);
             case _ { return false; }
         };
-        // update request status;        
-        ignore requests.set(rid,{info = rs.info; status = accepted; user = rs.user });
+        // update request status;
+        requests.set(rid,{info = rs.info; status = accepted; user = rs.user });
         return true;
     };
 
@@ -189,7 +189,7 @@ actor {
             if (
                 true
                 //Types.getDistanceFromLatLng(h.location, u.location) <= h.radiusKm
-               ) 
+               )
             { ? h;
             }
             else null;

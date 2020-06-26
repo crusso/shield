@@ -1,5 +1,5 @@
 {
-  "name": "shield",
+  "name": "shield_assets",
   "version": "0.1.0",
   "description": "",
   "keywords": [],
@@ -7,20 +7,19 @@
     "build": "webpack"
   },
   "devDependencies": {
-    "@dfinity/agent": "~/.cache/dfinity/versions/0.5.7/js-user-library",
+    "@dfinity/agent": "~/.cache/dfinity/versions/0.5.8/js-user-library",
     "css-loader": "^3.5.3",
-    "nes.css": "^2.3.0",
     "style-loader": "^1.2.1",
     "terser-webpack-plugin": "2.2.2",
     "webpack": "4.41.3",
-    "webpack-cli": "3.3.10"
+    "webpack-cli": "3.3.10",
+    "ts-loader": "^7.0.5",
+    "typescript": "^3.9.5",
+    "prettier": "^2.0.5"
   },
   "dependencies": {
     "bootstrap": "^4.5.0",
-    "prettier": "^2.0.5",
     "react": "^16.13.1",
-    "react-dom": "^16.13.1",
-    "ts-loader": "^7.0.5",
-    "typescript": "^3.9.5"
+    "react-dom": "^16.13.1"
   }
 }
