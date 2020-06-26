@@ -12,13 +12,16 @@ import { FindRequest } from "./find_request.jsx";
 import * as C from "./const.js";
 import { leaflet, mapbox_token } from "./lib/leaflet-src.js";
 
-
 import "bootstrap/dist/css/bootstrap.min.css";
-import "./styles.css";var link = document.createElement('link');
+import "./styles.css";
+var link = document.createElement("link");
 
-link.setAttribute('rel', 'stylesheet');
-link.setAttribute('type', 'text/css');
-link.setAttribute('href', 'https://fonts.googleapis.com/css?family=Press+Start+2P');
+link.setAttribute("rel", "stylesheet");
+link.setAttribute("type", "text/css");
+link.setAttribute(
+  "href",
+  "https://fonts.googleapis.com/css?family=Press+Start+2P"
+);
 document.head.appendChild(link);
 
 // Enable access to the canister APIs from the console.
@@ -65,25 +68,34 @@ class App extends React.Component {
     });
   }
   blankUser = () => ({
-    name: { first: "Claudio", last: "Russo"},
+    name: { first: "Claudio", last: "Russo" },
     email: "cvr@hotmail.com",
     address: ["Girton"],
     age: 50,
-    disability: [{other: null}],
+    disability: [{ other: null }],
   });
   registerUser = async (user) => {
     this.state.errorMessage = "";
     try {
+      document.body.style.cursor = "wait";
       user.location = this.state.location;
       const response = await shield.registerUser(user);
       this.setState({ ...this.state, me: { user: [user], helper: [] } });
       this.getUserEnvironment();
       this.navigateTo(C.USER_DASHBOARD);
+      document.body.style.cursor = "pointer";
     } catch (e) {
+      document.body.style.cursor = "pointer";
       this.setState({ ...this.state, errorMessage: e.message });
     }
   };
   getUserEnvironment = async () => {
+    await this.getUserEnvironmentOnce();
+    if (undefined === this.poll) {
+      this.poll = setInterval(() => this.getUserEnvironmentOnce(), 5000);
+    }
+  };
+  getUserEnvironmentOnce = async () => {
     await Promise.all([
       this.findHelpers(),
       this.getUserRequests(),
@@ -91,6 +103,12 @@ class App extends React.Component {
     ]);
   };
   getHelperEnvironment = async () => {
+    await this.getHelperEnvironmentOnce();
+    if (undefined === this.poll) {
+      this.poll = setInterval(() => this.getHelperEnvironmentOnce(), 2000);
+    }
+  };
+  getHelperEnvironmentOnce = async () => {
     await Promise.all([
       this.getHelperRequests(),
       this.getOpenRequests(),
@@ -117,44 +135,51 @@ class App extends React.Component {
   };
   acceptRequest = async (request_id) => {
     try {
+      document.body.style.cursor = "wait";
       let claim = await shield.acceptRequest(request_id);
     } catch (e) {
       console.log(e.message);
     }
+    document.body.style.cursor = "pointer";
     this.getOpenRequests();
     this.getHelperRequests();
   };
   confirmRequest = async (request_id) => {
     try {
+      document.body.style.cursor = "wait";
       let claim = await shield.confirmRequest(request_id);
       try {
-	var b = await balance.checkAccount();
-	b = Number(b[0]);
-	console.log({ balance: b });
-	this.setState({ ...this.state, balance: b });
+        var b = await balance.checkAccount();
+        b = Number(b[0]);
+        console.log({ balance: b });
+        this.setState({ ...this.state, balance: b });
       } catch (e) {
-	console.error("Failed to get balance:", e.message);
-      };
+        console.error("Failed to get balance:", e.message);
+      }
     } catch (e) {
       console.log(e.message);
     }
+    document.body.style.cursor = "pointer";
     this.getUserRequests();
   };
   blankHelper = () => ({
     name: { first: "Good", last: "Samaritan" },
     radiusKm: 5,
     email: "goodie@gmail.com",
-    services: [{grocery:null}],
+    services: [{ grocery: null }],
   });
   registerHelper = async (helper) => {
     this.state.errorMessage = "";
     try {
+      document.body.style.cursor = "wait";
       helper.location = this.state.location;
       const response = await shield.registerHelper(helper);
       this.setState({ ...this.state, me: { user: [], helper: [helper] } });
       await this.getHelperEnvironment();
       this.navigateTo(C.HELPER_DASHBOARD);
+      document.body.style.cursor = "pointer";
     } catch (e) {
+      document.body.style.cursor = "pointer";
       this.setState({ ...this.state, errorMessage: e.message });
     }
   };
@@ -181,7 +206,9 @@ class App extends React.Component {
     this.setState({ ...this.state, nearbyHelpers });
   };
   makeMap = async (location, markers) => {
-    if (this.visuals.myMap) {
+    let mapContainer = document.getElementById("mapid");
+    if (!mapContainer) return;
+    if (mapContainer.firstChild) {
       console.log("Already have map:", this.visuals.myMap);
     } else {
       try {
@@ -312,6 +339,8 @@ class App extends React.Component {
           state={this.state}
           acceptRequest={this.acceptRequest}
           navigateTo={this.navigateTo}
+          makeMap={this.makeMap}
+          makeMarkers={this.makeMarkers}
         />
       );
     } else {

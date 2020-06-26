@@ -2,7 +2,7 @@ import * as React from "react";
 
 export const UserRegistration = ({ state, user, registerUser }) => (
   <div style={{ "font-size": "30px" }} class="user">
-    <div style={{ "background-color": "yellow" }}>
+    <div class="title">
       <p>SHIELD USER REGISTRATION</p>
     </div>
     <div

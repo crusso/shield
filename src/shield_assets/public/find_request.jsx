@@ -1,11 +1,45 @@
 import * as C from "./const.js";
 import * as React from "react";
 
-export const FindRequest = ({ state, acceptRequest, navigateTo }) => {
+export const FindRequest = ({
+  state,
+  makeMap,
+  makeMarkers,
+  acceptRequest,
+  navigateTo,
+}) => {
+  after_load(() => {
+    makeMap(
+      state.me.helper[0].location,
+      state.nearbyHelpers &&
+        state.nearbyHelpers.map((helper) => helper._1_.location)
+    );
+  });
   return (
-    <div style={{ "font-size": "30px" }}>
-      <div style={{ "background-color": "yellow" }}>
-        <p>SHIELD HELPER: FIND REQUEST</p>
+    <div style={{ "font-size": "30px" }} class="helper">
+      <div class="title">
+        <span>SHIELD HELPER: FIND REQUEST</span>
+        <span style={{ float: "right" }} class="credit">
+          {state.balance}
+        </span>
+      </div>
+      <div
+        id="map-bar"
+        style={{
+          margin: "30px",
+          display: "grid",
+          gridTemplateColumns: "200px auto",
+          gridColumnGap: "30px",
+        }}
+      >
+        <div>
+          <div>Hello {state.me.helper[0].name.first}.</div>
+          <div style={{ fontSize: "smaller" }}>Thank you for helping</div>
+        </div>
+        <div
+          id="mapid"
+          style={{ height: "180px", width: "100%", backgroundColor: "#AAA" }}
+        ></div>
       </div>
       <table
         id="open-tasks"
@@ -32,7 +66,10 @@ export const FindRequest = ({ state, acceptRequest, navigateTo }) => {
           {state.open_requests.map((request, index) => (
             <tr
               style={{
-                backgroundColor: index % 2 === 0 ? "#EEEEEE" : "#EFEFEF",
+                backgroundColor:
+                  index % 2 === 0
+                    ? "var(--background-color)"
+                    : "var(--darker-background-color)",
               }}
             >
               <td>{String(Object.keys(request._1_.requestType)[0])}</td>
@@ -51,7 +88,10 @@ export const FindRequest = ({ state, acceptRequest, navigateTo }) => {
                 </ul>
               </td>
               <td>{String(request._1_.note)}</td>
-              <td>{String(request._1_.reward)} S</td>
+              <td>
+                {" "}
+                <span class="credit">{String(request._1_.reward)}</span>
+              </td>
 
               <td>
                 <button onClick={() => acceptRequest(request._0_)}>
@@ -67,3 +107,7 @@ export const FindRequest = ({ state, acceptRequest, navigateTo }) => {
     </div>
   );
 };
+
+function after_load(delayed_action) {
+  setTimeout(delayed_action, 200); // horrible hack
+}
