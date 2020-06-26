@@ -4,13 +4,13 @@ Project Shield is a POC volunteering app, matching located helpers/volunteers wi
 
 ![Screenshot](images/shield.png)
 
-[Slides](https://docs.google.com/presentation/d/1-4phUn7TjWgTSQT18IDQ8Hkhw9qcF9wSl4bLMZXqdxA/edit?usp=sharing)
+[Slides](https://docs.google.com/presentation/d/1-4phUn7TjWgTSQT18IDQ8Hkhw9qcF9wSl4bLMZXqdxA/edit?usp=sharing) (may not be publically accessible)
 
 [Screenshot](./images/shield.png)
 
-[Supporting materials](https://drive.google.com/drive/folders/1XYAEynOAmfndBrFJzErdAYPyOF3b_27t)
+[Supporting materials](https://drive.google.com/drive/folders/1XYAEynOAmfndBrFJzErdAYPyOF3b_27t) (may not be publically accessible)
 
-[Video](https://drive.google.com/file/d/1Y2Vmm9DxZuv0Psp2bopxq7nPrEjJInMS/view?usp=sharing)
+[Video](https://youtu.be/DgCIdzJmLdM) (public)
 
 # Requirements
 
@@ -29,7 +29,7 @@ The dfx project is a [multi-canister project](dfx.json) with 2 main canisters an
 Appearance basic but fully functional, should be stylable via css (future work).
 
 * [Balance canister](./src/balance/): central *bank* managing user accounts storing shield tokens. Authenticated by caller id (for better or worse).
-Endowed by shield canister, used both by users and helpers.  Account creation and transfers initiated soley by shield canister (the `trust` principal, for want of better name).
+Endowed by shield canister, used both by users and helpers.  Account creation and transfers initiated soley by shield canister (the `trust` principal, for want of a better name).
 
 * [User canister(s)](./src/user/) Generic user agent capable of impersonating a single shield user or shield helper. Used by test script [run.sh](run.sh) to prepoplute replica with small number of users and canisters.
 Forged to set up an artificial environment of users/helpers located around Zurich. Each agent canister registers itself with shield.
@@ -74,6 +74,8 @@ Bundling assets with canisters...
 
 # Test Script
 
+Once build, you can execute this script.
+
 ```bash
 $ ./run.sh
 ```
@@ -94,9 +96,9 @@ Open the shield frontend URL in a browser, and again in private browser window(s
 # Manual installation (sans test script).
 
 ```bash
-$ canister install -all
-
+$ dfx canister install -all
 ```
+
 Note that dfx reports several canister ids - you'll need to use the actuall ID (not the ondisplayed here) in the following URLs for the `shield_assets` canister.
 
 # Opening candid UI
@@ -115,3 +117,19 @@ E.g. (but using the actual canister ID returned on installation)
 $ firefox http://localhost:8000/canisterId=ic:0D0000000000000000000000000000000001D2
 ```
 
+# Troubleshooting
+
+If `dfx` or the replica goes south, try getting back to a good state by doing this:
+
+
+```bash
+dfx stop
+rm -r -f .dfx
+rm -r -r canisters
+```
+and restart
+
+
+```bash
+$ dfx start --background
+```
